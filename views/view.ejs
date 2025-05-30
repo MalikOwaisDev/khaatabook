@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.png" type="image/x-icon">
+  <!-- Tailwind CSS with Dark Mode -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {},
+      },
+    };
+  </script>
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+  <!-- Roboto Condensed Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+
+  <title><%= filename.split(".")[0] %> Hisaab | KhaataBook</title>
+</head>
+
+<body class="bg-zinc-100 dark:bg-zinc-700 text-black dark:text-white font-['Roboto_Condensed']">
+  <div class="w-full min-h-screen">
+    <!-- Navbar -->
+    <nav class="w-full h-16 sm:h-20 bg-zinc-300 dark:bg-zinc-800 px-4 sm:px-6 lg:px-10 flex items-center justify-between flex-shrink-0">
+      <h1 class="text-lg sm:text-xl font-semibold">KhaataBook</h1>
+
+      <!-- Desktop Navigation -->
+      <ul class="hidden lg:flex items-center gap-5">
+        <li><a class="underline underline-offset-4 text-black dark:text-white hover:opacity-70 transition-opacity" href="/">Home</a></li>
+        <li><a class="underline underline-offset-4 text-black dark:text-white hover:opacity-70 transition-opacity" href="/create">Create Hisaab</a></li>
+        <li><a class="underline underline-offset-4 text-black dark:text-white hover:opacity-70 transition-opacity" href="/logout">Logout</a></li>
+        <li>
+          <label class="inline-flex items-center relative">
+            <input class="peer hidden" id="toggle-theme" type="checkbox" />
+            <div class="relative w-[80px] h-[35px] bg-white peer-checked:bg-zinc-500 rounded-full after:absolute after:content-[''] after:w-[30px] after:h-[30px] after:bg-gradient-to-r from-orange-500 to-yellow-400 peer-checked:after:from-zinc-900 peer-checked:after:to-zinc-900 after:rounded-full after:top-[3px] after:left-[5px] active:after:w-[35px] peer-checked:after:left-[70px] peer-checked:after:translate-x-[-85%] shadow-sm duration-300 after:duration-300 after:shadow-md"></div>
+            <svg class="fill-white peer-checked:opacity-60 absolute w-5 h-5 left-[10px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5ZM13,0h-2V5h2V0Zm0,19h-2v5h2v-5ZM5,11H0v2H5v-2Zm19,0h-5v2h5v-2Zm-2.81-6.78l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54ZM7.76,17.66l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54Zm0-11.31l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Zm13.44,13.44l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Z" />
+            </svg>
+            <svg class="fill-black opacity-60 peer-checked:opacity-70 peer-checked:fill-white absolute w-5 h-5 right-[10px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M12.009,24A12.067,12.067,0,0,1,.075,10.725,12.121,12.121,0,0,1,10.1.152a13,13,0,0,1,5.03.206,2.5,2.5,0,0,1,1.8,1.8,2.47,2.47,0,0,1-.7,2.425c-4.559,4.168-4.165,10.645.807,14.412h0a2.5,2.5,0,0,1-.7,4.319A13.875,13.875,0,0,1,12.009,24Zm.074-22a10.776,10.776,0,0,0-1.675.127,10.1,10.1,0,0,0-8.344,8.8A9.928,9.928,0,0,0,4.581,18.7a10.473,10.473,0,0,0,11.093,2.734.5.5,0,0,0,.138-.856h0C9.883,16.1,9.417,8.087,14.865,3.124a.459.459,0,0,0,.127-.465.491.491,0,0,0-.356-.362A10.68,10.68,0,0,0,12.083,2ZM20.5,12a1,1,0,0,1-.97-.757l-.358-1.43L17.74,9.428a1,1,0,0,1,.035-1.94l1.4-.325.351-1.406a1,1,0,0,1,1.94,0l.355,1.418,1.418.355a1,1,0,0,1,0,1.94l-1.418.355-.355,1.418A1,1,0,0,1,20.5,12ZM16,14a1,1,0,0,0,2,0A1,1,0,0,0,16,14Zm6,4a1,1,0,0,0,2,0A1,1,0,0,0,22,18Z" />
+            </svg>
+          </label>
+        </li>
+      </ul>
+
+      <!-- Mobile/Tablet Navigation -->
+      <div class="lg:hidden flex items-center gap-2 sm:gap-3">
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="p-2 rounded-md hover:bg-zinc-400 dark:hover:bg-zinc-700 transition-colors" aria-label="Toggle menu">
+          <i id="menu-icon" class="ri-menu-line text-xl"></i>
+        </button>
+
+        <!-- Mobile Theme Toggle -->
+        <label class="inline-flex items-center relative">
+          <input class="peer hidden" id="toggle-theme-mobile" type="checkbox" />
+          <div class="relative w-[60px] h-[28px] bg-white peer-checked:bg-zinc-500 rounded-full after:absolute after:content-[''] after:w-[22px] after:h-[22px] after:bg-gradient-to-r from-orange-500 to-yellow-400 peer-checked:after:from-zinc-900 peer-checked:after:to-zinc-900 after:rounded-full after:top-[3px] after:left-[4px] active:after:w-[26px] peer-checked:after:left-[52px] peer-checked:after:translate-x-[-85%] shadow-sm duration-300 after:duration-300 after:shadow-md"></div>
+          <svg class="fill-white peer-checked:opacity-60 absolute w-4 h-4 left-[7px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5ZM13,0h-2V5h2V0Zm0,19h-2v5h2v-5ZM5,11H0v2H5v-2Zm19,0h-5v2h5v-2Zm-2.81-6.78l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54ZM7.76,17.66l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54Zm0-11.31l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Zm13.44,13.44l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Z" />
+          </svg>
+          <svg class="fill-black opacity-60 peer-checked:opacity-70 peer-checked:fill-white absolute w-4 h-4 right-[7px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12.009,24A12.067,12.067,0,0,1,.075,10.725,12.121,12.121,0,0,1,10.1.152a13,13,0,0,1,5.03.206,2.5,2.5,0,0,1,1.8,1.8,2.47,2.47,0,0,1-.7,2.425c-4.559,4.168-4.165,10.645.807,14.412h0a2.5,2.5,0,0,1-.7,4.319A13.875,13.875,0,0,1,12.009,24Zm.074-22a10.776,10.776,0,0,0-1.675.127,10.1,10.1,0,0,0-8.344,8.8A9.928,9.928,0,0,0,4.581,18.7a10.473,10.473,0,0,0,11.093,2.734.5.5,0,0,0,.138-.856h0C9.883,16.1,9.417,8.087,14.865,3.124a.459.459,0,0,0,.127-.465.491.491,0,0,0-.356-.362A10.68,10.68,0,0,0,12.083,2ZM20.5,12a1,1,0,0,1-.97-.757l-.358-1.43L17.74,9.428a1,1,0,0,1,.035-1.94l1.4-.325.351-1.406a1,1,0,0,1,1.94,0l.355,1.418,1.418.355a1,1,0,0,1,0,1.94l-1.418.355-.355,1.418A1,1,0,0,1,20.5,12ZM16,14a1,1,0,0,0,2,0A1,1,0,0,0,16,14Zm6,4a1,1,0,0,0,2,0A1,1,0,0,0,22,18Z" />
+          </svg>
+        </label>
+      </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+      <div class="fixed top-0 right-0 h-full w-64 bg-zinc-300 dark:bg-zinc-800 transform translate-x-full transition-transform duration-300" id="mobile-menu-panel">
+        <div class="p-4">
+          <button id="close-menu" class="float-right p-2 rounded hover:bg-zinc-400 dark:hover:bg-zinc-700">
+            <i class="ri-close-line text-xl"></i>
+          </button>
+          <div class="clear-both mt-8">
+            <ul class="flex flex-col gap-4">
+              <li><a class="block py-2 underline underline-offset-4 text-black dark:text-white hover:opacity-70 transition-opacity" href="/">Home</a></li>
+              <li><a class="block py-2 underline underline-offset-4 text-black dark:text-white hover:opacity-70 transition-opacity" href="/create">Create Hisaab</a></li>
+              <li><a class="block py-2 underline underline-offset-4 text-black dark:text-white hover:opacity-70 transition-opacity" href="/logout">Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="p-4 sm:p-6 lg:p-10">
+      <h1 class="text-xl sm:text-2xl font-semibold mb-6 sm:mb-8">View Your Hisaab: <%= filename.split(".")[0] %></h1>
+
+      <!-- Action Buttons and Status -->
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-4">
+        <!-- Status and Action Buttons -->
+        <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+          <!-- Status Badges -->
+          <div class="flex items-center gap-2 sm:gap-3">
+            <p class="px-3 py-2 text-sm text-white rounded-md flex items-center gap-1
+                    <% if (isEncrypted) { %>
+                      bg-red-600
+                    <% } else { %>
+                      bg-green-600
+                    <% } %>">
+              <% if (isEncrypted) { %>
+              <i class="ri-lock-2-line"></i>
+              <span class="hidden sm:inline">Encrypted</span>
+              <span class="sm:hidden">Locked</span>
+              <% } else { %>
+              <i class="ri-check-line"></i>
+              <span class="hidden sm:inline">Available</span>
+              <span class="sm:hidden">Open</span>
+              <% } %>
+            </p>
+
+            <p class="px-3 py-2 text-sm text-white rounded-md flex items-center gap-1
+                    <% if (isShareable) { %>
+                      bg-green-600
+                    <% } else { %>
+                      bg-red-600
+                    <% } %>">
+              <% if (isShareable) { %>
+              <i class="ri-eye-line"></i>
+              <span class="hidden sm:inline">Shareable</span>
+              <% } else { %>
+              <i class="ri-eye-off-line"></i>
+              <span class="hidden sm:inline">Private</span>
+              <% } %>
+            </p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="flex items-center gap-2 sm:gap-3">
+            <a href="/edit/<%= filename %>" class="px-3 py-2 text-sm bg-teal-600 hover:bg-teal-700 text-white rounded-md transition-all duration-150 hover:scale-95 flex items-center gap-1">
+              <i class="ri-edit-line"></i>
+              <span class="hidden sm:inline">Edit</span>
+            </a>
+            <a href="/delete/<%= filename %>" class="px-3 py-2 text-sm bg-red-600 hover:bg-red-700 text-white rounded-md transition-all duration-150 hover:scale-95 flex items-center gap-1">
+              <i class="ri-delete-bin-line"></i>
+              <span class="hidden sm:inline">Delete</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Created Date -->
+        <p class="text-xs sm:text-sm text-zinc-600 dark:text-zinc-400">
+          <span class="font-medium">Created:</span> <%= createdAt %>
+        </p>
+      </div>
+
+      <!-- Content Display -->
+      <div class="max-w-4xl">
+        <div class="flex flex-col gap-4 sm:gap-5">
+          <!-- Title -->
+          <div class="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-600">
+            <div class="px-4 py-3 border-b border-zinc-200 dark:border-zinc-600">
+              <h3 class="text-sm font-medium text-zinc-600 dark:text-zinc-400">Title</h3>
+            </div>
+            <div class="p-4">
+              <p class="text-black dark:text-white break-words">
+                <%= title %>
+              </p>
+            </div>
+          </div>
+
+          <!-- Content -->
+          <div class="bg-white dark:bg-zinc-800 rounded-lg shadow-sm border border-zinc-200 dark:border-zinc-600">
+            <div class="px-4 py-3 border-b border-zinc-200 dark:border-zinc-600">
+              <h3 class="text-sm font-medium text-zinc-600 dark:text-zinc-400">Content</h3>
+            </div>
+            <div class="p-4">
+              <div class="min-h-[200px] sm:min-h-[300px] max-h-[500px] overflow-y-auto">
+                <pre class="text-black dark:text-white whitespace-pre-wrap break-words font-['Roboto_Condensed']"><%= data %></pre>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuPanel = document.getElementById('mobile-menu-panel');
+    const closeMenuBtn = document.getElementById('close-menu');
+    const menuIcon = document.getElementById('menu-icon');
+
+    function openMobileMenu() {
+      mobileMenu.classList.remove('hidden');
+      setTimeout(() => {
+        mobileMenuPanel.classList.remove('translate-x-full');
+      }, 10);
+      menuIcon.className = 'ri-close-line text-xl';
+    }
+
+    function closeMobileMenu() {
+      mobileMenuPanel.classList.add('translate-x-full');
+      setTimeout(() => {
+        mobileMenu.classList.add('hidden');
+      }, 300);
+      menuIcon.className = 'ri-menu-line text-xl';
+    }
+
+    mobileMenuBtn.addEventListener('click', () => {
+      if (mobileMenu.classList.contains('hidden')) {
+        openMobileMenu();
+      } else {
+        closeMobileMenu();
+      }
+    });
+
+    closeMenuBtn.addEventListener('click', closeMobileMenu);
+    mobileMenu.addEventListener('click', (e) => {
+      if (e.target === mobileMenu) {
+        closeMobileMenu();
+      }
+    });
+
+    // Theme Management
+    function setTheme(isDark) {
+      if (isDark) {
+        document.documentElement.classList.add("dark");
+        localStorage.theme = "dark";
+      } else {
+        document.documentElement.classList.remove("dark");
+        localStorage.theme = "light";
+      }
+    }
+
+    function syncToggles(isDark) {
+      const desktopToggle = document.getElementById("toggle-theme");
+      const mobileToggle = document.getElementById("toggle-theme-mobile");
+
+      if (desktopToggle) desktopToggle.checked = isDark;
+      if (mobileToggle) mobileToggle.checked = isDark;
+    }
+
+    // Initialize theme
+    const prefersDark = localStorage.theme === "dark" ||
+      (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+    setTheme(prefersDark);
+    syncToggles(prefersDark);
+
+    // Desktop theme toggle
+    const desktopToggle = document.getElementById("toggle-theme");
+    if (desktopToggle) {
+      desktopToggle.addEventListener("click", () => {
+        const isDark = desktopToggle.checked;
+        setTheme(isDark);
+        syncToggles(isDark);
+      });
+    }
+
+    // Mobile theme toggle
+    const mobileToggle = document.getElementById("toggle-theme-mobile");
+    if (mobileToggle) {
+      mobileToggle.addEventListener("click", () => {
+        const isDark = mobileToggle.checked;
+        setTheme(isDark);
+        syncToggles(isDark);
+      });
+    }
+  </script>
+</body>
+
+</html>

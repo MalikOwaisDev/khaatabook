@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css" />
+  <!-- Tailwind CDN with configuration -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+    extend: {
+      screens: {
+        lon: "1146px",
+      },
+    },
+  },
+};
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet" />
+<link rel="icon" href="/favicon.png" type="image/x-icon">
+<title>KhaataBook Project</title>
+</head>
+
+<body class="bg-zinc-100 dark:bg-zinc-700 text-black dark:text-white">
+  <div class="w-full min-h-screen font-['Roboto_Condensed']">
+    <!-- Responsive Navigation -->
+    <nav class="w-full h-auto min-h-[8vh] bg-zinc-300 dark:bg-zinc-800 px-4 sm:px-6 lg:px-10 py-3 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-0">
+      <h1 class="text-xl sm:text-2xl font-semibold">KhaataBook</h1>
+
+      <!-- Mobile-friendly navigation -->
+      <ul class="flex flex-wrap items-center justify-center gap-3 sm:gap-5">
+        <li>
+          <a class="underline underline-offset-3 text-black dark:text-white text-sm sm:text-base hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="/">Home</a>
+        </li>
+        <li>
+          <a class="underline underline-offset-3 text-black dark:text-white text-sm sm:text-base hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="/create">Create Hisaab</a>
+        </li>
+        <li>
+          <a class="underline underline-offset-3 text-black dark:text-white text-sm sm:text-base hover:text-blue-600 dark:hover:text-blue-400 transition-colors" href="/logout">Logout</a>
+        </li>
+        <li>
+          <!-- Responsive theme toggle -->
+          <label class="inline-flex items-center relative">
+            <input class="peer hidden" id="toggle-theme" type="checkbox" />
+            <div class="relative w-[70px] sm:w-[80px] h-[30px] sm:h-[35px] bg-white peer-checked:bg-zinc-500 rounded-full after:absolute after:content-[''] after:w-[25px] sm:after:w-[30px] after:h-[25px] sm:after:h-[30px] after:bg-gradient-to-r from-orange-500 to-yellow-400 peer-checked:after:from-zinc-900 peer-checked:after:to-zinc-900 after:rounded-full after:top-[2.5px] sm:after:top-[3px] after:left-[5px] active:after:w-[30px] sm:active:after:w-[35px] peer-checked:after:left-[60px] sm:peer-checked:after:left-[70px] peer-checked:after:translate-x-[-85%] shadow-sm duration-300 after:duration-300 after:shadow-md"></div>
+            <svg height="0" width="100" viewBox="0 0 24 24" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" class="fill-white peer-checked:opacity-60 absolute w-4 sm:w-5 h-4 sm:h-5 left-[8px] sm:left-[10px]">
+              <path d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5ZM13,0h-2V5h2V0Zm0,19h-2v5h2v-5ZM5,11H0v2H5v-2Zm19,0h-5v2h5v-2Zm-2.81-6.78l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54ZM7.76,17.66l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54Zm0-11.31l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Zm13.44,13.44l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Z"></path>
+            </svg>
+            <svg height="512" width="512" viewBox="0 0 24 24" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" class="fill-black opacity-60 peer-checked:opacity-70 peer-checked:fill-white absolute w-4 sm:w-5 h-4 sm:h-5 right-[8px] sm:right-[10px]">
+              <path d="M12.009,24A12.067,12.067,0,0,1,.075,10.725,12.121,12.121,0,0,1,10.1.152a13,13,0,0,1,5.03.206,2.5,2.5,0,0,1,1.8,1.8,2.47,2.47,0,0,1-.7,2.425c-4.559,4.168-4.165,10.645.807,14.412h0a2.5,2.5,0,0,1-.7,4.319A13.875,13.875,0,0,1,12.009,24Zm.074-22a10.776,10.776,0,0,0-1.675.127a10.1,10.1,0,0,0-8.344,8.8A9.928,9.928,0,0,0,4.581,18.7a10.473,10.473,0,0,0,11.093,2.734.5.5,0,0,0,.138-.856h0C9.883,16.1,9.417,8.087,14.865,3.124a.459.459,0,0,0,.127-.465.491.491,0,0,0-.356-.362A10.68,10.68,0,0,0,12.083,2ZM20.5,12a1,1,0,0,1-.97-.757l-.358-1.43L17.74,9.428a1,1,0,0,1,.035-1.94l1.4-.325.351-1.406a1,1,0,0,1,1.94,0l.355,1.418,1.418.355a1,1,0,0,1,0,1.94l-1.418.355-.355,1.418A1,1,0,0,1,20.5,12ZM16,14a1,1,0,0,0,2,0A1,1,0,0,0,16,14Zm6,4a1,1,0,0,0,2,0A1,1,0,0,0,22,18Z"></path>
+            </svg>
+          </label>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Responsive main content -->
+    <div class="form p-4 sm:p-6 lg:p-10">
+      <h1 class="text-xl sm:text-2xl font-semibold mb-6 sm:mb-10">All Hisaab Kitaab</h1>
+      <div class="mb-6 sm:mb-10 flex flex-col sm:flex-row items-start sm:items-center justify-start gap-4 sm:gap-10">
+        <!-- Responsive search form -->
+        <h3 class="text-md sm:text-xl"><i class="ri-equalizer-line"></i> Filters</h3>
+        <form action="/filter" method="POST" class="flex items-center gap-4">
+          <div class="relative w-max">
+            <select
+              name="filterSelect"
+              class="appearance-none pl-3 pr-10 py-2 border border-gray-300 rounded-md text-sm text-zinc-800 bg-zinc-100 dark:text-zinc-100 dark:bg-zinc-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="all" <%= filterSelect === 'all' ? 'selected' : '' %>>All</option>
+              <option value="new" <%= filterSelect === 'new' ? 'selected' : '' %>>Newest first</option>
+              <option value="old" <%= filterSelect === 'old' ? 'selected' : '' %>>Oldest first</option>
+            </select>
+
+            <!-- Custom dropdown arrow -->
+            <div class="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+              <svg class="w-4 h-4 text-gray-600 dark:text-zinc-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+
+          <input
+            type="date"
+            name="filterDate"
+            value="<%= filterDate ? filterDate : '' %>"
+            class="px-3 py-2 border border-gray-300 rounded-md text-zinc-800  text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+          <input
+            type="submit"
+            value="Filter"
+            class="px-3 py-2 bg-blue-600 hover:bg-blue-700 duration-300 hover:scale-[0.98] rounded-md text-white text-sm cursor-pointer"
+          >
+        </form>
+      </div>
+
+
+      <!-- Responsive grid container -->
+      <div class="w-full h-fit grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-4 sm:gap-5">
+        <% if(files.length>0){files.forEach((file) => { %>
+        <div class="w-full h-fit px-4 lg:px-3 lon:px-4 py-3 dark:border-[1px] border-[3px] border-zinc-300 flex flex-col gap-2 rounded-md dark:bg-zinc-800 bg-white shadow-sm hover:shadow-md transition-shadow">
+          <% if (error && file.filename == filename) { %>
+          <div class="bg-red-600 text-white px-3 py-2 rounded-md mb-2">
+            <p class="text-sm"><%= error%></p>
+          </div>
+          <% } else {%>
+          <!-- Status indicators - responsive -->
+          <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 select-none">
+            <div class="flex items-center gap-2 sm:gap-4 lg:gap-1 lon:gap-4 flex-wrap">
+              <p class="px-2 lg:px-1 lon:px-2 py-1 text-xs sm:text-sm text-white rounded-md
+                    <% if (file.isEncrypted) { %>
+                      bg-red-600
+                    <% } else { %>
+                      bg-green-600
+                    <% } %>">
+                <% if (file.isEncrypted) { %>
+                <i class="ri-lock-2-line"></i>
+                Encrypted
+                <% } else { %>
+                <i class="ri-check-line"></i>
+                Available
+                <% } %>
+              </p>
+              <p class="px-2 py-1 text-xs sm:text-sm text-white rounded-md
+                    <% if (file.isShareable) { %>
+                      bg-green-600
+                    <% } else { %>
+                      bg-red-600
+                    <% } %>">
+                <% if (file.isShareable) { %>
+                <i class="ri-eye-line"></i>
+                Shareable
+                <% } else { %>
+                <i class="ri-eye-off-line"></i>
+                Private
+                <% } %>
+              </p>
+            </div>
+            <p class="text-black dark:text-white text-xs lg:text-[12px] lon:text-sm sm:text-sm">Created: <%= file.createdAt %></p>
+          </div>
+          <% } %>
+
+          <!-- Title - responsive text -->
+          <h3 class="text-lg sm:text-xl lg:text-2xl my-2 text-black dark:text-white break-words"><%= file.title.slice(0,36) %></h3>
+
+          <% if (file.isEncrypted) { %>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400">This file is encrypted, please unlock to view</p>
+
+          <!-- Responsive password form and edit button -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
+            <form class="flex flex-col sm:flex-row gap-2 sm:gap-3 flex-1" action="/fileCheck/<%=file.filename%>" method="POST">
+              <div class="relative flex-1">
+                <input class="w-full px-3 pr-10 py-2 rounded-md border-[2px] border-zinc-800 dark:border-zinc-100 bg-zinc-100 dark:bg-zinc-800 text-black dark:text-white outline-none text-sm" type="password" name="ePassword" placeholder="Enter Password to Unlock">
+                <div class="absolute hover:cursor-pointer right-2 top-1/2 transform -translate-y-1/2 px-1 py-0 rounded-md text-black dark:text-white">
+                  <i id="eye" class="inline-block ri-eye-line text-sm"></i>
+                  <i id="eye-off" class="hidden ri-eye-off-line text-sm"></i>
+                </div>
+              </div>
+              <input class="px-3 py-2 dark:bg-zinc-100 bg-zinc-800 hover:bg-zinc-700 dark:hover:bg-zinc-200 text-zinc-100 dark:text-zinc-900 duration-300 hover:scale-[0.98] rounded-md hover:cursor-pointer text-sm" type="submit" value="Unlock">
+            </form>
+            <a href="/edit/<%= file.filename %>" class="px-3 py-2 bg-teal-600 hover:bg-teal-700 duration-300 hover:scale-[0.98] rounded-md text-center text-white text-sm">
+              <i class="ri-edit-line"></i> Edit
+            </a>
+          </div>
+          <% } else { %>
+          <!-- Action buttons for non-encrypted files - responsive layout -->
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mt-4 sm:mt-7">
+            <a href="/view/<%= file.filename %>" class="w-full sm:w-fit px-3 lg:px-1 lon:px-3  lg:py-1 lon:py-2 py-2 bg-blue-600 hover:bg-blue-700 duration-300 hover:scale-[0.98] rounded-md text-center text-white text-sm sm:text-base lg:text-[14px] lon:text-base">
+              View Hisaab <i class="ri-arrow-right-line"></i>
+            </a>
+            <div class="flex items-center gap-2 sm:gap-3">
+              <a href="/edit/<%= file.filename %>" class="flex-1 sm:flex-none px-2 sm:px-3 py-2 bg-teal-600 hover:bg-teal-700 duration-300 hover:scale-[0.98] rounded-md text-center text-white text-xs sm:text-sm">
+                <i class="ri-edit-line"></i> Edit
+              </a>
+              <a href="/delete/<%= file.filename %>" class="flex-1 sm:flex-none px-2 sm:px-3 py-2 bg-red-600 hover:bg-red-700 duration-300 hover:scale-[0.98] rounded-md text-center text-white text-xs sm:text-sm">
+                <i class="ri-delete-bin-line"></i> Delete
+              </a>
+            </div>
+          </div>
+          <% } %>
+        </div>
+        <% });} else{ %>
+        <!-- Empty state for no files -->
+        <div class="col-span-full">
+          <div class="px-6 py-8 bg-red-50 dark:bg-red-900/20 border-2 border-red-200 dark:border-red-800 rounded-lg text-center">
+            <h1 class="text-red-800 dark:text-red-200 text-lg sm:text-xl lg:text-2xl font-medium">
+              No Hisaab Kitaab Found
+            </h1>
+            <p class="text-red-600 dark:text-red-300 mt-2 text-sm sm:text-base">
+              Go Create Hisaab to see something here
+            </p>
+          </div>
+        </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Check for saved theme preference, otherwise use system preference
+      const toggleButton = document.getElementById("toggle-theme");
+      if (
+        localStorage.theme === "dark" ||
+        (!("theme" in localStorage) &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      ) {
+        document.documentElement.classList.add("dark");
+        toggleButton.checked = true;
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+
+      const passwordBlocks = document.querySelectorAll("form");
+
+      passwordBlocks.forEach((block) => {
+        const eye = block.querySelector("#eye");
+        const eyeOff = block.querySelector("#eye-off");
+        const passwordInput = block.querySelector('input[name="ePassword"]');
+
+        if (eye && eyeOff && passwordInput) {
+          eye.addEventListener("click", () => {
+            eye.style.display = "none";
+            eyeOff.style.display = "inline-block";
+            passwordInput.type = "text";
+          });
+
+          eyeOff.addEventListener("click", () => {
+            eyeOff.style.display = "none";
+            eye.style.display = "inline-block";
+            passwordInput.type = "password";
+          });
+        }
+      });
+
+      // Theme toggle functionality
+      if (toggleButton) {
+        toggleButton.addEventListener("click", () => {
+          // Toggle the dark class on the html element
+          document.documentElement.classList.toggle("dark");
+
+          // Update localStorage
+          if (document.documentElement.classList.contains("dark")) {
+            localStorage.theme = "dark";
+          } else {
+            localStorage.theme = "light";
+          }
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
