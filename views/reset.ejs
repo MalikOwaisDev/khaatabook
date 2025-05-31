@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" href="/favicon.png" type="image/x-icon">
+
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          screens: {
+            lon: "1146px",
+          },
+        },
+      },
+    };
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+
+  <title>Update Password | KhaataBook</title>
+  <style>
+    body {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    /* Password requirement feedback styling */
+    .requirement {
+      font-size: 0.875rem; /* text-sm */
+      display: flex;
+      align-items: center;
+      transition: color 0.3s ease;
+    }
+    .requirement.valid {
+      color: theme('colors.green.600');
+    }
+    .dark .requirement.valid {
+      color: theme('colors.green.400');
+    }
+    .requirement.error {
+      color: theme('colors.red.600');
+    }
+    .dark .requirement.error {
+      color: theme('colors.red.400');
+    }
+    .requirement i {
+      margin-right: 0.5rem; /* mr-2 */
+      font-size: 1.125rem; /* text-lg for icons */
+    }
+  </style>
+</head>
+
+<body class="bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 font-['Roboto_Condensed'] min-h-screen">
+  <div class="flex flex-col w-full min-h-screen">
+    <nav class="flex-shrink-0 w-full h-auto min-h-[8vh] bg-white dark:bg-zinc-800 shadow-md px-4 sm:px-6 lg:px-10 py-3 flex items-center justify-between">
+      <h1 class="text-2xl font-semibold text-blue-600 dark:text-blue-400 sm:text-3xl">KhaataBook</h1>
+
+      <ul class="hidden gap-y-2 gap-x-5 items-center sm:flex">
+        <li><a class="text-sm font-medium transition-colors text-zinc-700 underline-offset-4 hover:underline dark:text-zinc-300 sm:text-base hover:text-blue-600 dark:hover:text-blue-400" href="/login">Login</a></li>
+        <li><a class="text-sm font-medium transition-colors text-zinc-700 underline-offset-4 hover:underline dark:text-zinc-300 sm:text-base hover:text-blue-600 dark:hover:text-blue-400" href="/register">Register</a></li>
+        <li>
+          <label class="inline-flex relative items-center cursor-pointer">
+            <input class="sr-only peer" id="toggle-theme" type="checkbox" />
+            <div class="relative w-[70px] sm:w-[80px] h-[30px] sm:h-[35px] bg-zinc-200 dark:bg-zinc-700 peer-checked:bg-zinc-600 rounded-full
+                                after:absolute after:content-[''] after:w-[25px] sm:after:w-[30px] after:h-[25px] sm:after:h-[30px]
+                                after:bg-gradient-to-r after:from-orange-500 after:to-yellow-400
+                                peer-checked:after:from-zinc-800 peer-checked:after:to-zinc-900
+                                after:rounded-full after:top-[2.5px] sm:after:top-[2.5px] after:left-[5px]
+                                peer-checked:after:translate-x-[calc(100%+10px)] sm:peer-checked:after:translate-x-[calc(100%+12px)]
+                                shadow-inner after:shadow-md transition-all duration-300 after:transition-all after:duration-300">
+            </div>
+            <svg class="fill-zinc-100 absolute w-4 sm:w-5 h-4 sm:h-5 left-[8px] sm:left-[10px] top-1/2 -translate-y-1/2 opacity-100 peer-checked:opacity-0 transition-opacity duration-300" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5ZM13,0h-2V5h2V0Zm0,19h-2v5h2v-5ZM5,11H0v2H5v-2Zm19,0h-5v2h5v-2Zm-2.81-6.78l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54ZM7.76,17.66l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54Zm0-11.31l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Zm13.44,13.44l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Z"></path>
+            </svg>
+            <svg class="fill-slate-300 absolute w-4 sm:w-5 h-4 sm:h-5 right-[8px] sm:right-[10px] top-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.009,24A12.067,12.067,0,0,1,.075,10.725,12.121,12.121,0,0,1,10.1.152a13,13,0,0,1,5.03.206,2.5,2.5,0,0,1,1.8,1.8,2.47,2.47,0,0,1-.7,2.425c-4.559,4.168-4.165,10.645.807,14.412h0a2.5,2.5,0,0,1-.7,4.319A13.875,13.875,0,0,1,12.009,24Zm.074-22a10.776,10.776,0,0,0-1.675.127,10.1,10.1,0,0,0-8.344,8.8A9.928,9.928,0,0,0,4.581,18.7a10.473,10.473,0,0,0,11.093,2.734.5.5,0,0,0,.138-.856h0C9.883,16.1,9.417,8.087,14.865,3.124a.459.459,0,0,0,.127-.465.491.491,0,0,0-.356-.362A10.68,10.68,0,0,0,12.083,2ZM20.5,12a1,1,0,0,1-.97-.757l-.358-1.43L17.74,9.428a1,1,0,0,1,.035-1.94l1.4-.325.351-1.406a1,1,0,0,1,1.94,0l.355,1.418,1.418.355a1,1,0,0,1,0,1.94l-1.418.355-.355,1.418A1,1,0,0,1,20.5,12ZM16,14a1,1,0,0,0,2,0A1,1,0,0,0,16,14Zm6,4a1,1,0,0,0,2,0A1,1,0,0,0,22,18Z"></path>
+            </svg>
+          </label>
+        </li>
+      </ul>
+
+      <div class="flex gap-3 items-center sm:hidden">
+        <div class="flex gap-2 items-center text-sm">
+          <a class="font-medium transition-colors text-zinc-700 hover:text-blue-600 dark:text-zinc-300 dark:hover:text-blue-400" href="/register">Register</a>
+          <span class="text-zinc-400 dark:text-zinc-600">|</span>
+          <a class="font-medium transition-colors text-zinc-700 hover:text-blue-600 dark:text-zinc-300 dark:hover:text-blue-400" href="/login">Login</a>
+        </div>
+        <label class="inline-flex relative items-center ml-2 cursor-pointer">
+          <input class="sr-only peer" id="toggle-theme-mobile" type="checkbox" />
+          <div class="relative w-[60px] h-[28px] bg-zinc-200 dark:bg-zinc-700 peer-checked:bg-zinc-600 rounded-full
+                                after:absolute after:content-[''] after:w-[22px] after:h-[22px]
+                                after:bg-gradient-to-r after:from-orange-500 after:to-yellow-400
+                                peer-checked:after:from-zinc-800 peer-checked:after:to-zinc-900
+                                after:rounded-full after:top-[3px] after:left-[4px]
+                                peer-checked:after:translate-x-[calc(100%+6px)]
+                                shadow-inner after:shadow-md transition-all duration-300 after:transition-all after:duration-300">
+          </div>
+        </label>
+      </div>
+    </nav>
+
+    <main class="flex flex-1 justify-center items-center p-4 sm:p-6 lg:p-10">
+      <div class="w-full max-w-md">
+        <div class="p-6 bg-white rounded-xl shadow-2xl dark:bg-zinc-800 sm:p-10">
+          <div class="mb-8 text-center sm:mb-10">
+            <div class="flex justify-center items-center w-full h-16">
+              <img class="w-16 h-full" src="./favicon.png" alt="KhaataBook Logo">
+            </div>
+            <h1 class="mt-4 text-2xl font-semibold sm:text-3xl text-zinc-800 dark:text-zinc-100">Set New Password</h1>
+            <p class="text-sm text-zinc-600 dark:text-zinc-400">Enter and confirm your new password below.</p>
+          </div>
+
+          <% if (typeof error !== 'undefined' && error) { %>
+          <div class="flex gap-3 items-center px-4 py-3 mb-6 text-sm text-red-700 bg-red-100 rounded-md border-l-4 border-red-500 shadow-md dark:bg-red-900/30 dark:border-red-600 dark:text-red-300" role="alert">
+            <i class="text-xl ri-error-warning-fill"></i>
+            <p><%= error %></p>
+          </div>
+          <% } %>
+
+          <form class="flex flex-col gap-5 sm:gap-6" action="/updatePassword" method="POST" id="updatePasswordForm">
+            <div>
+              <label for="newPassword" class="block mb-1.5 text-sm font-medium text-zinc-700 dark:text-zinc-300">New Password</label>
+              <div class="relative w-full">
+                <input type="password" id="newPassword" name="newPassword" minlength="8" placeholder="Create a strong password" class="px-4 py-3 pr-12 w-full rounded-lg border transition-all outline-none text-zinc-900 dark:text-white bg-zinc-50 dark:bg-zinc-700 border-zinc-300 dark:border-zinc-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-zinc-400 dark:placeholder-zinc-500" required />
+                <button type="button" class="flex absolute top-0 right-0 items-center px-4 h-full transition-colors text-zinc-500 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400" id="togglePasswordButton" aria-label="Toggle new password visibility">
+                  <i id="eye" class="text-xl ri-eye-line"></i>
+                  <i id="eye-off" class="hidden text-xl ri-eye-off-line"></i>
+                </button>
+              </div>
+              <div id="passwordRequirements" class="mt-3 space-y-1.5">
+                <p id="length" class="requirement error"><i class="ri-close-circle-line"></i>Must be at least 8 characters</p>
+                <p id="number" class="requirement error"><i class="ri-close-circle-line"></i>Must include a number</p>
+                <p id="symbol" class="requirement error"><i class="ri-close-circle-line"></i>Must include a symbol (e.g., !@#$% )</p>
+              </div>
+            </div>
+
+            <div>
+              <label for="confirmNewPassword" class="block mb-1.5 text-sm font-medium text-zinc-700 dark:text-zinc-300">Confirm New Password</label>
+              <div class="relative w-full">
+                <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm new password" class="px-4 py-3 pr-12 w-full rounded-lg border transition-all outline-none text-zinc-900 dark:text-white bg-zinc-50 dark:bg-zinc-700 border-zinc-300 dark:border-zinc-600 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 placeholder-zinc-400 dark:placeholder-zinc-500" required />
+                <button type="button" class="flex absolute top-0 right-0 items-center px-4 h-full transition-colors text-zinc-500 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400" id="toggleConfirmPasswordButton" aria-label="Toggle confirm password visibility">
+                  <i id="confirmEye" class="text-xl ri-eye-line"></i>
+                  <i id="confirmEyeOff" class="hidden text-xl ri-eye-off-line"></i>
+                </button>
+              </div>
+              <p id="passwordMismatchError" class="mt-1.5 text-xs text-red-500 dark:text-red-400" style="display: none;">Passwords do not match.</p>
+            </div>
+
+            <div class="flex justify-center items-center mt-2">
+              <input id="submitBtn" type="submit" value="Update Password" class="w-full sm:w-auto px-6 py-2 font-semibold text-base text-white bg-blue-600 rounded-lg transition-all duration-300 cursor-pointer hover:bg-blue-700 active:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transform hover:scale-[1.02] active:scale-[0.98]" />
+            </div>
+          </form>
+
+          <div class="mt-8 text-center">
+            <p class="text-sm text-zinc-600 dark:text-zinc-400">
+              Remembered your password?
+              <a href="/login" class="font-semibold text-blue-600 dark:text-blue-400 hover:underline">Login here</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const newPasswordInput = document.getElementById('newPassword');
+      const togglePasswordButton = document.getElementById('togglePasswordButton');
+      const eyeIcon = document.getElementById('eye');
+      const eyeOffIcon = document.getElementById('eye-off');
+
+      const confirmPasswordInput = document.getElementById('confirmNewPassword');
+      const toggleConfirmPasswordButton = document.getElementById('toggleConfirmPasswordButton');
+      const confirmEyeIcon = document.getElementById('confirmEye');
+      const confirmEyeOffIcon = document.getElementById('confirmEyeOff');
+
+      const updatePasswordForm = document.getElementById('updatePasswordForm');
+      const passwordMismatchError = document.getElementById('passwordMismatchError');
+      const submitBtn = document.getElementById('submitBtn');
+
+      // Password requirements elements
+      const lengthReq = document.getElementById('length');
+      const numberReq = document.getElementById('number');
+      const symbolReq = document.getElementById('symbol');
+
+      const passwordCriteria = [
+        { el: lengthReq, iconEl: lengthReq.querySelector('i'), textValid: 'At least 8 characters', textError: 'Must be at least 8 characters', isValid: (val) => val.length >= 8, defaultIcon: 'ri-close-circle-line' },
+        { el: numberReq, iconEl: numberReq.querySelector('i'), textValid: 'Includes a number', textError: 'Must include a number', isValid: (val) => /\d/.test(val), defaultIcon: 'ri-close-circle-line' },
+        { el: symbolReq, iconEl: symbolReq.querySelector('i'), textValid: 'Includes a symbol', textError: 'Must include a symbol (e.g., !@#$% )', isValid: (val) => /[\W_]/.test(val), defaultIcon: 'ri-close-circle-line' } // /[\W_]/ matches non-alphanumeric and underscore
+      ];
+
+      function updatePasswordRequirementUI(req, value) {
+        const valid = req.isValid(value);
+        req.el.className = valid ? 'requirement valid' : 'requirement error';
+        req.iconEl.className = valid ? 'ri-checkbox-circle-line' : req.defaultIcon;
+        req.el.childNodes[1].nodeValue = ` ${valid ? req.textValid : req.textError}`; // Update text content part
+      }
+
+      function checkAllValidations() {
+        let criteriaAllMet = true;
+        passwordCriteria.forEach(req => {
+          if (!req.isValid(newPasswordInput.value)) {
+            criteriaAllMet = false;
+          }
+        });
+
+        const passwordsMatch = newPasswordInput.value === confirmPasswordInput.value;
+
+        if (passwordsMatch) {
+          passwordMismatchError.style.display = 'none';
+          confirmPasswordInput.classList.remove('border-red-500', 'dark:border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+        } else if (confirmPasswordInput.value !== "") { // Show mismatch only if confirm has text and doesn't match
+            passwordMismatchError.style.display = 'block';
+            confirmPasswordInput.classList.add('border-red-500', 'dark:border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
+        }
+
+
+        if (criteriaAllMet && passwordsMatch && newPasswordInput.value !== "") { // Ensure new password is not empty
+          submitBtn.disabled = false;
+          submitBtn.classList.remove('cursor-not-allowed', 'opacity-50');
+        } else {
+          submitBtn.disabled = true;
+          submitBtn.classList.add('cursor-not-allowed', 'opacity-50');
+        }
+      }
+
+      // Initial state for submit button: disabled
+      submitBtn.disabled = true;
+      submitBtn.classList.add('cursor-not-allowed', 'opacity-50');
+
+
+      // Helper function for toggling password visibility
+      function setupPasswordToggle(inputField, toggleBtn, eyeElem, eyeOffElem) {
+        if (toggleBtn && inputField && eyeElem && eyeOffElem) {
+          toggleBtn.addEventListener('click', () => {
+            const isPassword = inputField.type === 'password';
+            inputField.type = isPassword ? 'text' : 'password';
+            eyeElem.classList.toggle('hidden', isPassword);
+            eyeOffElem.classList.toggle('hidden', !isPassword);
+          });
+        }
+      }
+
+      setupPasswordToggle(newPasswordInput, togglePasswordButton, eyeIcon, eyeOffIcon);
+      setupPasswordToggle(confirmPasswordInput, toggleConfirmPasswordButton, confirmEyeIcon, confirmEyeOffIcon);
+
+      if (newPasswordInput) {
+        newPasswordInput.addEventListener('input', () => {
+          const value = newPasswordInput.value;
+          passwordCriteria.forEach(req => {
+            updatePasswordRequirementUI(req, value);
+          });
+          checkAllValidations();
+        });
+      }
+
+      if (confirmPasswordInput) {
+        confirmPasswordInput.addEventListener('input', () => {
+          checkAllValidations();
+        });
+      }
+
+      // Final check on form submit (mostly for robustness, button disabling should prevent this)
+      if (updatePasswordForm) {
+        updatePasswordForm.addEventListener('submit', function(event) {
+          checkAllValidations(); // Re-check before submit
+          if (submitBtn.disabled) {
+            event.preventDefault();
+            // Focus the first problematic field if possible
+            if (!passwordCriteria.every(req => req.isValid(newPasswordInput.value))) {
+                newPasswordInput.focus();
+            } else if (newPasswordInput.value !== confirmPasswordInput.value) {
+                confirmPasswordInput.focus();
+            }
+          }
+        });
+      }
+
+      // Consistent Theme Toggle Script
+      const desktopToggle = document.getElementById("toggle-theme");
+      const mobileToggle = document.getElementById("toggle-theme-mobile");
+
+      const applyThemePreference = (isDark) => {
+        document.documentElement.classList.toggle("dark", isDark);
+        if (desktopToggle) desktopToggle.checked = isDark;
+        if (mobileToggle) mobileToggle.checked = isDark;
+      };
+
+      const initTheme = () => {
+        const savedTheme = localStorage.theme;
+        const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        applyThemePreference(savedTheme === "dark" || (!savedTheme && systemPrefersDark));
+      };
+
+      initTheme();
+
+      const handleThemeToggle = (event) => {
+        const isDark = event.target.checked;
+        localStorage.theme = isDark ? "dark" : "light";
+        applyThemePreference(isDark);
+      };
+
+      if (desktopToggle) desktopToggle.addEventListener("click", handleThemeToggle);
+      if (mobileToggle) mobileToggle.addEventListener("click", handleThemeToggle);
+    });
+  </script>
+</body>
+
+</html>

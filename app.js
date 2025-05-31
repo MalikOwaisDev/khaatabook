@@ -35,7 +35,7 @@ app.get("/register", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, username } = req.body;
 
   try {
     const existingUser = await userModel.findOne({
@@ -53,6 +53,7 @@ app.post("/register", async (req, res) => {
     const passwordRegex = btoa(password);
 
     const newUser = await userModel.create({
+      username: username.toLowerCase(),
       name,
       email: email.toLowerCase(),
       password: passwordRegex,
@@ -328,6 +329,64 @@ app.post("/filter", (req, res, next) => {
   req.session.filteredDate = req.body.filterDate;
   req.session.filteredSelect = req.body.filterSelect;
   res.redirect("/");
+});
+
+app.get("/forget", (req, res, next) => {
+  res.render("forgot", { error: null });
+});
+
+app.post("/forget", async (req, res, next) => {
+  const { email, username } = req.body;
+
+  if (!email && !username) {
+    return res.render("forgot", { error: "Email or Username is required." });
+  }
+  if (email) {
+    const user = await userModel.findOne({ email: email.toLowerCase() });
+    if (!user) {
+      return res.render("forgot", { error: "Email not registered." });
+    }
+    req.session.userId = user._id; // Set session userId for password reset
+    return res.redirect("/reset");
+  }
+  if (username) {
+    const user = await userModel.findOne({ username: username.toLowerCase() });
+    if (!user) {
+      return res.render("forgot", { error: "Username not registered." });
+    }
+    req.session.userId = user._id; // Set session userId for password reset
+    return res.redirect("/reset");
+  }
+});
+
+app.get("/reset", (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect("/login");
+  }
+  res.render("reset", { error: null });
+});
+
+app.post("/reset", async (req, res) => {
+  const newPassword = btoa(req.body.newPassword);
+
+  if (!req.session.userId) {
+    return res.redirect("/login");
+  }
+  const user = await userModel.findById(req.session.userId);
+
+  if (!user) {
+    return res.status(404).send("User not found");
+  }
+  user.password = newPassword;
+  await user.save();
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Session destruction error:", err);
+      return res.status(500).send("Internal Server Error");
+    }
+    res.clearCookie("connect.sid");
+    res.redirect("/login");
+  });
 });
 
 const PORT = process.env.PORT || 3000;

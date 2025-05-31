@@ -4,179 +4,210 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="icon" href="/favicon.png" type="image/x-icon">
-  <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+  <link rel="icon" href="/favicon.png" type="image/x-icon">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.5.0/fonts/remixicon.css" rel="stylesheet">
 
-  <!-- Tailwind CDN and Config -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
       darkMode: "class",
       theme: {
-        extend: {},
+        extend: {
+          // You can add custom screen sizes or other extensions here if needed
+          screens: {
+             lon: "1146px", // Example, if you used this on the other page
+          },
+        },
       },
+      // plugins: [require('@tailwindcss/forms')], // Uncomment if you want to use the official forms plugin for nicer default styles
     };
   </script>
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
 
   <title>Create Hisaab | KhaataBook</title>
+  <style>
+    body {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    input.peer-checkbox:checked+label span.custom-checkbox-visual::after {
+      content: "\EB7A";
+      /* Remixicon 'check' icon unicode */
+      font-family: "remixicon";
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 1;
+      position: absolute;
+      top: 55%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: black;
+      /* Default color */
+    }
+
+
+    html.dark input.peer-checkbox:checked+label span.custom-checkbox-visual::after {
+      color: white;
+      /* Dark mode color */
+    }
+  </style>
 </head>
 
-<body class="bg-zinc-100 dark:bg-zinc-700 text-black dark:text-white font-['Roboto_Condensed'] min-h-screen">
+<body class="bg-zinc-100 dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 font-['Roboto_Condensed'] min-h-screen">
   <div class="w-full min-h-screen">
-    <!-- Navbar -->
-    <nav class="w-full h-[8vh] min-h-[60px] bg-zinc-300 dark:bg-zinc-800 px-4 sm:px-6 lg:px-10 flex items-center justify-between shadow-sm">
-      <h1 class="text-lg sm:text-xl font-semibold">KhaataBook</h1>
-      <ul class="flex items-center gap-3 sm:gap-5">
-        <!-- Mobile hamburger menu for very small screens -->
-        <li class="block sm:hidden">
-          <button id="mobile-menu-btn" class="p-2">
-            <i class="ri-menu-line text-xl"></i>
-          </button>
-        </li>
-        <!-- Desktop menu -->
-        <div class="hidden sm:flex items-center gap-5" id="desktop-menu">
-          <li>
-            <a class="underline underline-offset-4 text-black dark:text-white hover:opacity-75 transition-opacity" href="/">Home</a>
-          </li>
-          <li>
-            <a class="underline underline-offset-4 text-black dark:text-white hover:opacity-75 transition-opacity" href="/create">Create Hisaab</a>
-          </li>
-          <li>
-            <a class="underline underline-offset-4 text-black dark:text-white hover:opacity-75 transition-opacity" href="/logout">Logout</a>
-          </li>
-          <li>
-            <label class="inline-flex items-center relative">
-              <input class="peer hidden" id="toggle-theme" type="checkbox" />
-              <div class="relative w-[60px] sm:w-[80px] h-[28px] sm:h-[35px] bg-white peer-checked:bg-zinc-500 rounded-full after:absolute after:content-[''] after:w-[22px] sm:after:w-[30px] after:h-[22px] sm:after:h-[30px] after:bg-gradient-to-r from-orange-500 to-yellow-400 peer-checked:after:from-zinc-900 peer-checked:after:to-zinc-900 after:rounded-full after:top-[3px] after:left-[3px] sm:after:left-[5px] active:after:w-[26px] sm:active:after:w-[35px] peer-checked:after:left-[55px] sm:peer-checked:after:left-[70px] peer-checked:after:translate-x-[-85%] shadow-sm duration-300 after:duration-300 after:shadow-md"></div>
-              <svg class="fill-white peer-checked:opacity-60 absolute w-4 h-4 sm:w-5 sm:h-5 left-[6px] sm:left-[10px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5ZM13,0h-2V5h2V0Zm0,19h-2v5h2v-5ZM5,11H0v2H5v-2Zm19,0h-5v2h5v-2Zm-2.81-6.78l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54ZM7.76,17.66l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54Zm0-11.31l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Zm13.44,13.44l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Z" />
-              </svg>
-              <svg class="fill-black opacity-60 peer-checked:opacity-70 peer-checked:fill-white absolute w-4 h-4 sm:w-5 sm:h-5 right-[6px] sm:right-[10px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                <path d="M12.009,24A12.067,12.067,0,0,1,.075,10.725,12.121,12.121,0,0,1,10.1.152a13,13,0,0,1,5.03.206,2.5,2.5,0,0,1,1.8,1.8,2.47,2.47,0,0,1-.7,2.425c-4.559,4.168-4.165,10.645.807,14.412h0a2.5,2.5,0,0,1-.7,4.319A13.875,13.875,0,0,1,12.009,24Zm.074-22a10.776,10.776,0,0,0-1.675.127,10.1,10.1,0,0,0-8.344,8.8A9.928,9.928,0,0,0,4.581,18.7a10.473,10.473,0,0,0,11.093,2.734.5.5,0,0,0,.138-.856h0C9.883,16.1,9.417,8.087,14.865,3.124a.459.459,0,0,0,.127-.465.491.491,0,0,0-.356-.362A10.68,10.68,0,0,0,12.083,2ZM20.5,12a1,1,0,0,1-.97-.757l-.358-1.43L17.74,9.428a1,1,0,0,1,.035-1.94l1.4-.325.351-1.406a1,1,0,0,1,1.94,0l.355,1.418,1.418.355a1,1,0,0,1,0,1.94l-1.418.355-.355,1.418A1,1,0,0,1,20.5,12ZM16,14a1,1,0,0,0,2,0A1,1,0,0,0,16,14Zm6,4a1,1,0,0,0,2,0A1,1,0,0,0,22,18Z" />
-              </svg>
-            </label>
-          </li>
-        </div>
-      </ul>
+    <nav class="w-full h-auto min-h-[8vh] bg-white dark:bg-zinc-800 shadow-md px-4 sm:px-6 lg:px-10 py-3 flex items-center justify-between">
+      <h1 class="text-2xl font-semibold text-blue-600 dark:text-blue-400 sm:text-3xl">KhaataBook</h1>
+
+      <div class="hidden gap-y-2 gap-x-5 items-center sm:flex">
+        <a class="text-sm font-medium transition-colors text-zinc-700 underline-offset-4 hover:underline dark:text-zinc-300 sm:text-base hover:text-blue-600 dark:hover:text-blue-400" href="/">Home</a>
+        <a class="text-sm font-medium transition-colors text-zinc-700 underline-offset-4 hover:underline dark:text-zinc-300 sm:text-base hover:text-blue-600 dark:hover:text-blue-400" href="/create">Create Hisaab</a>
+        <a class="text-sm font-medium transition-colors text-zinc-700 underline-offset-4 hover:underline dark:text-zinc-300 sm:text-base hover:text-blue-600 dark:hover:text-blue-400" href="/logout">Logout</a>
+        <label class="inline-flex relative items-center cursor-pointer">
+          <input class="sr-only peer" id="toggle-theme" type="checkbox" />
+          <div class="relative w-[70px] sm:w-[80px] h-[30px] sm:h-[35px] bg-zinc-200 dark:bg-zinc-700 peer-checked:bg-zinc-600 rounded-full
+                      after:absolute after:content-[''] after:w-[25px] sm:after:w-[30px] after:h-[25px] sm:after:h-[30px]
+                      after:bg-gradient-to-r after:from-orange-500 after:to-yellow-400
+                      peer-checked:after:from-zinc-800 peer-checked:after:to-zinc-900
+                      after:rounded-full after:top-[2.5px] sm:after:top-[2.5px] after:left-[5px]
+                      peer-checked:after:translate-x-[calc(100%+10px)] sm:peer-checked:after:translate-x-[calc(100%+12px)]
+                      shadow-inner after:shadow-md transition-all duration-300 after:transition-all after:duration-300">
+          </div>
+          <svg class="fill-zinc-100 absolute w-4 sm:w-5 h-4 sm:h-5 left-[8px] sm:left-[10px] top-1/2 -translate-y-1/2 opacity-100 peer-checked:opacity-0 transition-opacity duration-300" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5ZM13,0h-2V5h2V0Zm0,19h-2v5h2v-5ZM5,11H0v2H5v-2Zm19,0h-5v2h5v-2Zm-2.81-6.78l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54ZM7.76,17.66l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54Zm0-11.31l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Zm13.44,13.44l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Z"></path>
+          </svg>
+          <svg class="fill-slate-300 absolute w-4 sm:w-5 h-4 sm:h-5 right-[8px] sm:right-[10px] top-1/2 -translate-y-1/2 opacity-0 peer-checked:opacity-100 transition-opacity duration-300" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12.009,24A12.067,12.067,0,0,1,.075,10.725,12.121,12.121,0,0,1,10.1.152a13,13,0,0,1,5.03.206,2.5,2.5,0,0,1,1.8,1.8,2.47,2.47,0,0,1-.7,2.425c-4.559,4.168-4.165,10.645.807,14.412h0a2.5,2.5,0,0,1-.7,4.319A13.875,13.875,0,0,1,12.009,24Zm.074-22a10.776,10.776,0,0,0-1.675.127,10.1,10.1,0,0,0-8.344,8.8A9.928,9.928,0,0,0,4.581,18.7a10.473,10.473,0,0,0,11.093,2.734.5.5,0,0,0,.138-.856h0C9.883,16.1,9.417,8.087,14.865,3.124a.459.459,0,0,0,.127-.465.491.491,0,0,0-.356-.362A10.68,10.68,0,0,0,12.083,2ZM20.5,12a1,1,0,0,1-.97-.757l-.358-1.43L17.74,9.428a1,1,0,0,1,.035-1.94l1.4-.325.351-1.406a1,1,0,0,1,1.94,0l.355,1.418,1.418.355a1,1,0,0,1,0,1.94l-1.418.355-.355,1.418A1,1,0,0,1,20.5,12ZM16,14a1,1,0,0,0,2,0A1,1,0,0,0,16,14Zm6,4a1,1,0,0,0,2,0A1,1,0,0,0,22,18Z"></path>
+          </svg>
+        </label>
+      </div>
+
+      <div class="block sm:hidden">
+        <button id="mobile-menu-btn" class="p-2 transition-colors text-zinc-700 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 focus:outline-none">
+          <i class="text-2xl ri-menu-fill"></i>
+        </button>
+      </div>
     </nav>
 
-    <!-- Mobile Menu (Hidden by default) -->
-    <div id="mobile-menu" class="hidden sm:hidden bg-zinc-300 dark:bg-zinc-800 px-4 py-4 border-t border-zinc-400 dark:border-zinc-600">
+    <div id="mobile-menu" class="hidden px-4 py-5 bg-white border-t shadow-lg sm:hidden dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700">
       <div class="flex flex-col gap-4">
-        <a class="underline underline-offset-4 text-black dark:text-white hover:opacity-75 transition-opacity" href="/">Home</a>
-        <a class="underline underline-offset-4 text-black dark:text-white hover:opacity-75 transition-opacity" href="/create">Create Hisaab</a>
-        <a class="underline underline-offset-4 text-black dark:text-white hover:opacity-75 transition-opacity" href="/logout">Logout</a>
-        <div class="flex items-center gap-3">
-          <span class="text-sm">Dark Mode:</span>
-          <label class="inline-flex items-center relative">
-            <input class="peer hidden" id="toggle-theme-mobile" type="checkbox" />
-            <div class="relative w-[60px] h-[28px] bg-white peer-checked:bg-zinc-500 rounded-full after:absolute after:content-[''] after:w-[22px] after:h-[22px] after:bg-gradient-to-r from-orange-500 to-yellow-400 peer-checked:after:from-zinc-900 peer-checked:after:to-zinc-900 after:rounded-full after:top-[3px] after:left-[3px] active:after:w-[26px] peer-checked:after:left-[55px] peer-checked:after:translate-x-[-85%] shadow-sm duration-300 after:duration-300 after:shadow-md"></div>
-            <svg class="fill-white peer-checked:opacity-60 absolute w-4 h-4 left-[6px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5ZM13,0h-2V5h2V0Zm0,19h-2v5h2v-5ZM5,11H0v2H5v-2Zm19,0h-5v2h5v-2Zm-2.81-6.78l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54ZM7.76,17.66l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54Zm0-11.31l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Zm13.44,13.44l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Z" />
-            </svg>
-            <svg class="fill-black opacity-60 peer-checked:opacity-70 peer-checked:fill-white absolute w-4 h-4 right-[6px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path d="M12.009,24A12.067,12.067,0,0,1,.075,10.725,12.121,12.121,0,0,1,10.1.152a13,13,0,0,1,5.03.206,2.5,2.5,0,0,1,1.8,1.8,2.47,2.47,0,0,1-.7,2.425c-4.559,4.168-4.165,10.645.807,14.412h0a2.5,2.5,0,0,1-.7,4.319A13.875,13.875,0,0,1,12.009,24Zm.074-22a10.776,10.776,0,0,0-1.675.127,10.1,10.1,0,0,0-8.344,8.8A9.928,9.928,0,0,0,4.581,18.7a10.473,10.473,0,0,0,11.093,2.734.5.5,0,0,0,.138-.856h0C9.883,16.1,9.417,8.087,14.865,3.124a.459.459,0,0,0,.127-.465.491.491,0,0,0-.356-.362A10.68,10.68,0,0,0,12.083,2ZM20.5,12a1,1,0,0,1-.97-.757l-.358-1.43L17.74,9.428a1,1,0,0,1,.035-1.94l1.4-.325.351-1.406a1,1,0,0,1,1.94,0l.355,1.418,1.418.355a1,1,0,0,1,0,1.94l-1.418.355-.355,1.418A1,1,0,0,1,20.5,12ZM16,14a1,1,0,0,0,2,0A1,1,0,0,0,16,14Zm6,4a1,1,0,0,0,2,0A1,1,0,0,0,22,18Z" />
-            </svg>
-          </label>
+        <a class="block py-2 text-base font-medium transition-colors text-zinc-700 hover:text-blue-600 dark:text-zinc-300 dark:hover:text-blue-400" href="/">Home</a>
+        <a class="block py-2 text-base font-medium transition-colors text-zinc-700 hover:text-blue-600 dark:text-zinc-300 dark:hover:text-blue-400" href="/create">Create Hisaab</a>
+        <a class="block py-2 text-base font-medium transition-colors text-zinc-700 hover:text-blue-600 dark:text-zinc-300 dark:hover:text-blue-400" href="/logout">Logout</a>
+        <div class="flex justify-between items-center py-2">
+          <span class="text-base font-medium text-zinc-700 dark:text-zinc-300">Theme:</span>
+          <label class="inline-flex relative items-center cursor-pointer">
+            <input class="sr-only peer" id="toggle-theme-mobile" type="checkbox" />
+             <div class="relative w-[70px] h-[30px] bg-zinc-200 dark:bg-zinc-700 peer-checked:bg-zinc-600 rounded-full
+                      after:absolute after:content-[''] after:w-[25px] after:h-[25px]
+                      after:bg-gradient-to-r after:from-orange-500 after:to-yellow-400
+                      peer-checked:after:from-zinc-800 peer-checked:after:to-zinc-900
+                      after:rounded-full after:top-[2.5px] after:left-[5px]
+                      peer-checked:after:translate-x-[calc(100%+10px)]
+                      shadow-inner after:shadow-md transition-all duration-300 after:transition-all after:duration-300">
+            </div>
+            </label>
         </div>
       </div>
     </div>
 
-    <!-- Create Form -->
-    <div class="form p-4 sm:p-6 lg:p-10 max-w-4xl mx-auto">
-      <h1 class="text-xl sm:text-2xl font-semibold mb-6 sm:mb-10 text-center sm:text-left">Create New Hisaab</h1>
+    <div class="p-4 mx-auto max-w-3xl sm:p-6 lg:p-10">
+      <h1 class="mb-8 text-2xl font-semibold text-center sm:text-3xl sm:mb-10 text-zinc-800 dark:text-zinc-100">
+        <i class="mr-2 align-middle ri-add-circle-line"></i>Create New Hisaab
+      </h1>
 
       <% if(error) {%>
-      <div class="bg-red-600 text-red-100 px-3 py-2 rounded-md mb-4 text-sm sm:text-base">
+      <div class="flex gap-3 items-center px-4 py-3 mb-6 text-sm text-red-700 bg-red-100 rounded-lg border border-red-400 shadow dark:bg-red-900/30 dark:border-red-600 dark:text-red-300 sm:text-base">
+        <i class="text-xl ri-error-warning-fill"></i>
         <p><%= error %></p>
       </div>
       <% } %>
 
-      <form class="w-full max-w-2xl mx-auto sm:mx-0 flex flex-col gap-4 sm:gap-5" action="/create" method="POST">
-        <!-- Filename and Title Row -->
-        <div class="flex flex-col sm:flex-row gap-4 sm:gap-6">
-          <div class="flex flex-col gap-2 flex-1">
-            <label class="text-sm font-medium" for="filename">Filename:</label>
+      <form class="p-6 space-y-6 w-full bg-white rounded-xl shadow-2xl dark:bg-zinc-800 sm:p-8 sm:space-y-8" action="/create" method="POST">
+        <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div>
+            <label class="block mb-1.5 text-sm font-medium text-zinc-700 dark:text-zinc-300" for="filename">Filename <span class="text-red-500">*</span></label>
             <input
               id="filename"
-              class="px-3 py-2 border border-zinc-400 dark:border-zinc-500 rounded-md bg-white dark:bg-zinc-800 text-black dark:text-white outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              class="px-4 py-2.5 w-full rounded-lg border transition-all outline-none border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-700 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               type="text"
               name="filename"
               value="<%= filename %>"
+              placeholder="e.g., monthly_expenses"
               required
             />
           </div>
 
-          <div class="flex flex-col gap-2 flex-1">
-            <label class="text-sm font-medium" for="title">Title:</label>
+          <div>
+            <label class="block mb-1.5 text-sm font-medium text-zinc-700 dark:text-zinc-300" for="title">Title <span class="text-red-500">*</span></label>
             <input
               id="title"
-              class="px-3 py-2 border border-zinc-400 dark:border-zinc-500 rounded-md bg-white dark:bg-zinc-800 text-black dark:text-white outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              class="px-4 py-2.5 w-full rounded-lg border transition-all outline-none border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-700 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               type="text"
               name="title"
-              placeholder="Enter Title"
+              placeholder="e.g., January Expenses"
               required
             />
           </div>
         </div>
 
-        <!-- Textarea -->
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-medium" for="hisaab-text">Hisaab Content:</label>
+        <div>
+          <label class="block mb-1.5 text-sm font-medium text-zinc-700 dark:text-zinc-300" for="hisaab-text">Hisaab Content <span class="text-red-500">*</span></label>
           <textarea
             id="hisaab-text"
             name="text"
             rows="8"
-            placeholder="Enter your Hisaab"
+            placeholder="Enter your hisaab details here..."
             required
-            class="px-3 py-2 border border-zinc-400 dark:border-zinc-500 rounded-md bg-white dark:bg-zinc-800 text-black dark:text-white outline-none resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all min-h-[120px] sm:min-h-[160px]"
+            class="w-full px-4 py-2.5 border border-zinc-300 dark:border-zinc-600 rounded-lg bg-zinc-50 dark:bg-zinc-700 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 outline-none resize-y focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all min-h-[150px] sm:min-h-[200px]"
           ></textarea>
         </div>
 
-        <!-- Checkboxes Row -->
-        <div class="flex flex-col sm:flex-row gap-4 sm:gap-8">
-          <!-- Shareable Checkbox -->
-          <div class="flex items-center gap-3">
-            <input id="isShareable" type="checkbox" name="isShareable" class="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500" />
-            <label for="isShareable" class="text-sm font-medium cursor-pointer">Shareable File?</label>
+        <div class="grid grid-cols-1 gap-6 items-center sm:grid-cols-2">
+          <div class="flex gap-3 items-center p-3 rounded-lg border bg-zinc-50 dark:bg-zinc-700/50 border-zinc-200 dark:border-zinc-700">
+            <input id="isShareable" type="checkbox" name="isShareable" class="sr-only peer peer-checkbox" <% if (typeof isShareable !== 'undefined' && isShareable) { %> checked <% } %> />
+            <label for="isShareable" class="flex gap-2.5 items-center text-sm font-medium cursor-pointer select-none text-zinc-700 dark:text-zinc-300">
+              <span class="flex relative justify-center items-center w-5 h-5 rounded-md border transition-all custom-checkbox-visual bg-zinc-100 dark:bg-zinc-600 border-zinc-400 dark:border-zinc-500 peer-checked:bg-blue-600 peer-checked:border-blue-600 peer-focus:ring-2 peer-focus:ring-blue-500 peer-focus:ring-offset-2 dark:peer-focus:ring-offset-zinc-800">
+              </span>
+              Make Hisaab Shareable?
+            </label>
           </div>
 
-          <!-- Encrypted Checkbox -->
-          <div class="flex items-center gap-3">
-            <input id="isEncrypted" type="checkbox" name="isEncrypted" class="w-4 h-4 text-blue-600 rounded focus:ring-2 focus:ring-blue-500" />
-            <label for="isEncrypted" class="text-sm font-medium cursor-pointer">Encrypted File?</label>
+          <div class="flex gap-3 items-center p-3 rounded-lg border bg-zinc-50 dark:bg-zinc-700/50 border-zinc-200 dark:border-zinc-700">
+            <input id="isEncrypted" type="checkbox" name="isEncrypted" class="sr-only peer peer-checkbox" <% if (typeof isEncrypted !== 'undefined' && isEncrypted) { %> checked <% } %> />
+            <label for="isEncrypted" class="flex gap-2.5 items-center text-sm font-medium cursor-pointer select-none text-zinc-700 dark:text-zinc-300">
+              <span class="flex relative justify-center items-center w-5 h-5 rounded-md border transition-all custom-checkbox-visual bg-zinc-100 dark:bg-zinc-600 border-zinc-400 dark:border-zinc-500 peer-checked:bg-blue-600 peer-checked:border-blue-600 peer-focus:ring-2 peer-focus:ring-blue-500 peer-focus:ring-offset-2 dark:peer-focus:ring-offset-zinc-800">
+              </span>
+              Encrypt this Hisaab?
+            </label>
           </div>
         </div>
 
-        <!-- Password Field (Initially Hidden) -->
-        <div class="hidden flex-col gap-2" id="passwordDiv">
-          <label class="text-sm font-medium" for="password">Passcode:</label>
+        <div class="hidden flex-col gap-1.5" id="passwordDiv">
+          <label class="block text-sm font-medium text-zinc-700 dark:text-zinc-300" for="password">Set Passcode <span class="text-red-500">*</span></label>
           <div class="relative">
             <input
+              id="password"
               type="password"
               name="ePassword"
               minlength="5"
-              class="w-full px-3 py-2 pr-12 border border-zinc-400 dark:border-zinc-500 rounded-md bg-white dark:bg-zinc-800 text-black dark:text-white outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
-              placeholder="Enter Passcode (Min 5 characters)"
+              class="px-4 py-2.5 pr-12 w-full rounded-lg border transition-all outline-none border-zinc-300 dark:border-zinc-600 bg-zinc-50 dark:bg-zinc-700 text-zinc-900 dark:text-white placeholder-zinc-400 dark:placeholder-zinc-500 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              placeholder="Min 5 characters"
             />
-            <div class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer">
-              <i id="eye" class="ri-eye-line text-lg dark:text-white text-black hover:opacity-75 transition-opacity"></i>
-              <i id="eye-off" class="hidden ri-eye-off-line text-lg dark:text-white text-black hover:opacity-75 transition-opacity"></i>
-            </div>
+            <button type="button" id="password-toggle-button" class="flex absolute top-0 right-0 items-center px-4 h-full transition-colors text-zinc-500 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400" aria-label="Toggle password visibility">
+              <i id="eye" class="text-xl ri-eye-line"></i>
+              <i id="eye-off" class="hidden text-xl ri-eye-off-line"></i>
+            </button>
           </div>
+           <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">A strong passcode is recommended for encrypted hisaabs.</p>
         </div>
 
-        <!-- Submit Button -->
-        <div class="flex justify-center sm:justify-start mt-4">
+        <div class="pt-4">
           <input
             type="submit"
             value="Create Hisaab"
-            class="w-full sm:w-auto px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md cursor-pointer transition-colors duration-200 font-medium focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-700"
+            class="w-full sm:w-auto px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg cursor-pointer transition-all duration-300 font-semibold text-base focus:outline-none focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-800 transform hover:scale-[1.02] active:scale-[0.98]"
           />
         </div>
       </form>
@@ -184,103 +215,100 @@
   </div>
 
   <script>
-    // Mobile menu toggle
-    const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-    const mobileMenu = document.getElementById("mobile-menu");
+    document.addEventListener("DOMContentLoaded", () => {
+      // Mobile menu toggle
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const menuIcon = mobileMenuBtn.querySelector("i");
 
-    mobileMenuBtn.addEventListener("click", () => {
-      mobileMenu.classList.toggle("hidden");
+      mobileMenuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+        if (mobileMenu.classList.contains("hidden")) {
+            menuIcon.classList.remove("ri-close-large-line");
+            menuIcon.classList.add("ri-menu-fill");
+        } else {
+            menuIcon.classList.remove("ri-menu-fill");
+            menuIcon.classList.add("ri-close-large-line");
+        }
+      });
+
+      // Theme toggle functionality
+      const toggleButton = document.getElementById("toggle-theme");
+      const toggleButtonMobile = document.getElementById("toggle-theme-mobile");
+
+      const applyThemePreference = (isDark) => {
+        if (isDark) {
+          document.documentElement.classList.add("dark");
+        } else {
+          document.documentElement.classList.remove("dark");
+        }
+        if (toggleButton) toggleButton.checked = isDark;
+        if (toggleButtonMobile) toggleButtonMobile.checked = isDark;
+      };
+
+      const initTheme = () => {
+        const savedTheme = localStorage.theme;
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        applyThemePreference(savedTheme === "dark" || (!savedTheme && prefersDark));
+      };
+
+      initTheme();
+
+      const handleThemeToggle = (event) => {
+        const isDark = event.target.checked;
+        localStorage.theme = isDark ? "dark" : "light";
+        applyThemePreference(isDark);
+      };
+
+      if (toggleButton) toggleButton.addEventListener("click", handleThemeToggle);
+      if (toggleButtonMobile) toggleButtonMobile.addEventListener("click", handleThemeToggle);
+
+      // Password visibility and field toggle
+      const encryptedCheckbox = document.getElementById('isEncrypted');
+      const passwordDiv = document.getElementById('passwordDiv');
+      const passwordInput = document.getElementById('password'); // More specific ID
+      const passwordToggleButton = document.getElementById('password-toggle-button');
+      const eyeIcon = document.getElementById("eye");
+      const eyeOffIcon = document.getElementById("eye-off");
+
+      if (passwordToggleButton && passwordInput && eyeIcon && eyeOffIcon) {
+        passwordToggleButton.addEventListener("click", () => {
+          if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            eyeIcon.style.display = "none";
+            eyeOffIcon.style.display = "block";
+          } else {
+            passwordInput.type = "password";
+            eyeOffIcon.style.display = "none";
+            eyeIcon.style.display = "block";
+          }
+        });
+      }
+
+      if (encryptedCheckbox && passwordDiv && passwordInput) {
+        const togglePasswordDivVisibility = () => {
+          if (encryptedCheckbox.checked) {
+            passwordDiv.classList.remove('hidden');
+            passwordDiv.classList.add('flex'); // Or 'block' if you prefer full width column
+            passwordInput.required = true;
+          } else {
+            passwordDiv.classList.add('hidden');
+            passwordDiv.classList.remove('flex');
+            passwordInput.required = false;
+            passwordInput.value = ''; // Clear password if unchecked
+             if (passwordInput.type === "text") { // Reset eye icon if password was visible
+                eyeOffIcon.style.display = "none";
+                eyeIcon.style.display = "block";
+                passwordInput.type = "password";
+            }
+          }
+        };
+
+        // Initialize on page load
+        togglePasswordDivVisibility();
+        encryptedCheckbox.addEventListener('change', togglePasswordDivVisibility);
+      }
     });
-
-    // Theme toggle functionality
-    const toggleButton = document.getElementById("toggle-theme");
-    const toggleButtonMobile = document.getElementById("toggle-theme-mobile");
-    const checkbox = document.getElementById('isEncrypted');
-    const passwordDiv = document.getElementById('passwordDiv');
-    const eye = document.getElementById("eye");
-    const eyeOff = document.getElementById("eye-off");
-    const passwordInput = document.querySelector('input[name="ePassword"]');
-
-    // Check for saved theme preference, otherwise use system preference
-    const initTheme = () => {
-      if (
-        localStorage.theme === "dark" ||
-        (!("theme" in localStorage) &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-        if (toggleButton) toggleButton.checked = true;
-        if (toggleButtonMobile) toggleButtonMobile.checked = true;
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    };
-
-    initTheme();
-
-    // Sync theme toggles
-    const syncTheme = (isDark) => {
-      if (isDark) {
-        document.documentElement.classList.add("dark");
-        localStorage.theme = "dark";
-      } else {
-        document.documentElement.classList.remove("dark");
-        localStorage.theme = "light";
-      }
-
-      if (toggleButton) toggleButton.checked = isDark;
-      if (toggleButtonMobile) toggleButtonMobile.checked = isDark;
-    };
-
-    // Theme toggle event listeners
-    if (toggleButton) {
-      toggleButton.addEventListener("click", () => {
-        syncTheme(toggleButton.checked);
-      });
-    }
-
-    if (toggleButtonMobile) {
-      toggleButtonMobile.addEventListener("click", () => {
-        syncTheme(toggleButtonMobile.checked);
-      });
-    }
-
-    // Password visibility toggle
-    const togglePasswordVisibility = () => {
-      if (passwordInput.type === "password") {
-        eye.style.display = "none";
-        eyeOff.style.display = "block";
-        passwordInput.type = "text";
-      } else {
-        eyeOff.style.display = "none";
-        eye.style.display = "block";
-        passwordInput.type = "password";
-      }
-    };
-
-    eye.addEventListener("click", togglePasswordVisibility);
-    eyeOff.addEventListener("click", togglePasswordVisibility);
-
-    // Password field toggle based on encrypted checkbox
-    const togglePasswordDiv = () => {
-      if (checkbox.checked) {
-        passwordDiv.classList.remove('hidden');
-        passwordDiv.classList.add('flex');
-        passwordInput.required = true;
-      } else {
-        passwordDiv.classList.add('hidden');
-        passwordDiv.classList.remove('flex');
-        passwordInput.required = false;
-        passwordInput.value = '';
-      }
-    };
-
-    // Initialize password field visibility
-    togglePasswordDiv();
-
-    // Add event listener to the encrypted checkbox
-    checkbox.addEventListener('change', togglePasswordDiv);
   </script>
 </body>
-
 </html>
