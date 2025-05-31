@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="icon" href="/favicon.png" type="image/x-icon">
+  <link rel="icon" href="/favicon.png" type="image/x-icon">
 
   <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 
@@ -29,18 +29,18 @@
 </head>
 
 <body class="bg-zinc-100 dark:bg-zinc-700 text-black dark:text-white font-['Roboto_Condensed'] min-h-screen">
-  <div class="w-full min-h-screen flex flex-col">
+  <div class="flex flex-col w-full min-h-screen">
     <!-- Navbar -->
-    <nav class="w-full h-16 sm:h-20 bg-zinc-300 dark:bg-zinc-800 px-4 sm:px-6 lg:px-10 flex items-center justify-between flex-shrink-0">
-      <h1 class="text-lg sm:text-xl font-semibold">KhaataBook</h1>
+    <nav class="flex flex-shrink-0 justify-between items-center px-4 w-full h-16 sm:h-20 bg-zinc-300 dark:bg-zinc-800 sm:px-6 lg:px-10">
+      <h1 class="text-lg font-semibold sm:text-xl">KhaataBook</h1>
 
       <!-- Desktop Navigation -->
-      <ul class="hidden sm:flex items-center gap-5">
-        <li><a class="underline underline-offset-4 text-black dark:text-white hover:opacity-70 transition-opacity" href="/register">Register</a></li>
-        <li><a class="underline underline-offset-4 text-black dark:text-white hover:opacity-70 transition-opacity" href="/login">Login</a></li>
+      <ul class="hidden gap-5 items-center sm:flex">
+        <li><a class="text-black underline transition-opacity underline-offset-4 dark:text-white hover:opacity-70" href="/register">Register</a></li>
+        <li><a class="text-black underline transition-opacity underline-offset-4 dark:text-white hover:opacity-70" href="/login">Login</a></li>
         <li>
-          <label class="inline-flex items-center relative">
-            <input class="peer hidden" id="toggle-theme" type="checkbox" />
+          <label class="inline-flex relative items-center">
+            <input class="hidden peer" id="toggle-theme" type="checkbox" />
             <div class="relative w-[80px] h-[35px] bg-white peer-checked:bg-zinc-500 rounded-full after:absolute after:content-[''] after:w-[30px] after:h-[30px] after:bg-gradient-to-r from-orange-500 to-yellow-400 peer-checked:after:from-zinc-900 peer-checked:after:to-zinc-900 after:rounded-full after:top-[3px] after:left-[5px] active:after:w-[35px] peer-checked:after:left-[70px] peer-checked:after:translate-x-[-85%] shadow-sm duration-300 after:duration-300 after:shadow-md"></div>
             <svg class="fill-white peer-checked:opacity-60 absolute w-5 h-5 left-[10px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
               <path d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5ZM13,0h-2V5h2V0Zm0,19h-2v5h2v-5ZM5,11H0v2H5v-2Zm19,0h-5v2h5v-2Zm-2.81-6.78l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54ZM7.76,17.66l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54Zm0-11.31l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Zm13.44,13.44l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Z" />
@@ -53,14 +53,14 @@
       </ul>
 
       <!-- Mobile Navigation -->
-      <div class="sm:hidden flex items-center gap-3">
-        <div class="flex items-center gap-2 text-sm">
-          <a class="underline underline-offset-4 text-black dark:text-white" href="/register">Register</a>
+      <div class="flex gap-3 items-center sm:hidden">
+        <div class="flex gap-2 items-center text-sm">
+          <a class="text-black underline underline-offset-4 dark:text-white" href="/register">Register</a>
           <span class="text-zinc-400">|</span>
-          <a class="underline underline-offset-4 text-black dark:text-white" href="/login">Login</a>
+          <a class="text-black underline underline-offset-4 dark:text-white" href="/login">Login</a>
         </div>
-        <label class="inline-flex items-center relative">
-          <input class="peer hidden" id="toggle-theme-mobile" type="checkbox" />
+        <label class="inline-flex relative items-center">
+          <input class="hidden peer" id="toggle-theme-mobile" type="checkbox" />
           <div class="relative w-[60px] h-[28px] bg-white peer-checked:bg-zinc-500 rounded-full after:absolute after:content-[''] after:w-[22px] after:h-[22px] after:bg-gradient-to-r from-orange-500 to-yellow-400 peer-checked:after:from-zinc-900 peer-checked:after:to-zinc-900 after:rounded-full after:top-[3px] after:left-[4px] active:after:w-[26px] peer-checked:after:left-[52px] peer-checked:after:translate-x-[-85%] shadow-sm duration-300 after:duration-300 after:shadow-md"></div>
           <svg class="fill-white peer-checked:opacity-60 absolute w-4 h-4 left-[7px]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path d="M12,17c-2.76,0-5-2.24-5-5s2.24-5,5-5,5,2.24,5,5-2.24,5-5,5ZM13,0h-2V5h2V0Zm0,19h-2v5h2v-5ZM5,11H0v2H5v-2Zm19,0h-5v2h5v-2Zm-2.81-6.78l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54ZM7.76,17.66l-1.41-1.41-3.54,3.54,1.41,1.41,3.54-3.54Zm0-11.31l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Zm13.44,13.44l-3.54-3.54-1.41,1.41,3.54,3.54,1.41-1.41Z" />
@@ -73,41 +73,46 @@
     </nav>
 
     <!-- Registration Form Container -->
-    <div class="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-10">
+    <div class="flex flex-1 justify-center items-center p-4 sm:p-6 lg:p-10">
       <div class="w-full max-w-md">
-        <div class="bg-white dark:bg-zinc-800 rounded-lg shadow-lg p-6 sm:p-8">
-          <h1 class="text-2xl sm:text-3xl font-semibold mb-6 sm:mb-8 text-center">Register</h1>
+        <div class="p-6 bg-white rounded-lg shadow-lg dark:bg-zinc-800 sm:p-8">
+          <h1 class="mb-6 text-2xl font-semibold text-center sm:text-3xl sm:mb-8">Register</h1>
 
           <% if (error) { %>
-          <div class="w-full bg-red-600 px-4 py-3 rounded-md mb-6">
-            <p class="text-white text-sm"><%= error %></p>
+          <div class="px-4 py-3 mb-6 w-full bg-red-600 rounded-md">
+            <p class="text-sm text-white"><%= error %></p>
           </div>
           <% } %>
 
           <form class="flex flex-col gap-4 sm:gap-5" action="/register" method="POST">
             <!-- Name -->
             <div>
-              <input type="text" name="name" placeholder="Enter your Name" class="w-full px-3 py-3 sm:py-2 border border-zinc-300 dark:border-zinc-500 bg-white dark:bg-zinc-700 text-black dark:text-white rounded-md outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" required />
+              <input type="text" name="name" placeholder="Enter your Name" class="px-3 py-3 w-full text-black bg-white rounded-md border transition-all duration-200 outline-none sm:py-2 border-zinc-300 dark:border-zinc-500 dark:bg-zinc-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" required />
             </div>
 
             <!-- Email -->
             <div>
-              <input type="email" name="email" placeholder="Enter your Email" class="w-full px-3 py-3 sm:py-2 border border-zinc-300 dark:border-zinc-500 bg-white dark:bg-zinc-700 text-black dark:text-white rounded-md outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" required />
+              <input type="email" name="email" placeholder="Enter your Email" class="px-3 py-3 w-full text-black bg-white rounded-md border transition-all duration-200 outline-none sm:py-2 border-zinc-300 dark:border-zinc-500 dark:bg-zinc-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" required />
             </div>
 
             <!-- Password -->
             <div class="relative w-full">
-              <input type="password" id="password" name="password" placeholder="Enter your Password" class="w-full px-3 py-3 sm:py-2 border border-zinc-300 dark:border-zinc-500 bg-white dark:bg-zinc-700 text-black dark:text-white rounded-md outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" required />
+              <input type="password" id="password" name="password" minlength="8" placeholder="Enter your Password" class="px-3 py-3 w-full text-black bg-white rounded-md border transition-all duration-200 outline-none sm:py-2 border-zinc-300 dark:border-zinc-500 dark:bg-zinc-700 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent" required />
               <div class="absolute right-3 top-1/2 transform -translate-y-1/2 cursor-pointer" id="togglePassword">
-                <i id="eye" class="ri-eye-line text-lg dark:text-white text-black hover:opacity-75 transition-opacity"></i>
-                <i id="eye-off" class="hidden ri-eye-off-line text-lg dark:text-white text-black hover:opacity-75 transition-opacity"></i>
+                <i id="eye" class="text-lg text-black transition-opacity ri-eye-line dark:text-white hover:opacity-75"></i>
+                <i id="eye-off" class="hidden text-lg text-black transition-opacity ri-eye-off-line dark:text-white hover:opacity-75"></i>
               </div>
+            </div>
+            <div id="requirements">
+              <p id="symbol" class="requirement">❌ Must include a symbol (e.g., !@#$%)</p>
+              <p id="number" class="requirement">❌ Must include a number</p>
+              <p id="length" class="requirement">❌ Must be at least 8 characters</p>
             </div>
 
 
             <!-- Submit Button -->
             <div class="mt-2">
-              <input type="submit" value="Register" class="w-full bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white px-4 py-3 sm:py-2 rounded-md cursor-pointer font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-800" />
+              <input id="submit" type="submit" value="Register" class="px-4 py-3 w-full font-medium text-white bg-blue-600 rounded-md transition-colors duration-200 cursor-pointer hover:bg-blue-700 active:bg-blue-800 sm:py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-zinc-800" />
             </div>
           </form>
 
@@ -115,7 +120,7 @@
           <div class="mt-6 text-center">
             <p class="text-sm text-zinc-600 dark:text-zinc-400">
               Already have an account?
-              <a href="/login" class="text-blue-600 dark:text-blue-400 hover:underline font-medium">Login here</a>
+              <a href="/login" class="font-medium text-blue-600 dark:text-blue-400 hover:underline">Login here</a>
             </p>
           </div>
         </div>
@@ -125,63 +130,106 @@
 
   <!-- Auto Dark Mode Detection -->
   <script>
-    const passwordInput = document.getElementById('password');
-    const togglePassword = document.getElementById('togglePassword');
-    const eye = document.getElementById('eye');
-    const eyeOff = document.getElementById('eye-off');
+    document.addEventListener('DOMContentLoaded', () => {
+      const passwordInput = document.getElementById('password');
+      const togglePassword = document.getElementById('togglePassword');
+      const eye = document.getElementById('eye');
+      const eyeOff = document.getElementById('eye-off');
+      const submitBtn = document.getElementById('submit');
+      const symbolReq = document.getElementById('symbol');
+      const numberReq = document.getElementById('number');
+      const lengthReq = document.getElementById('length');
 
-    // Function to set theme
-    function setTheme(isDark) {
-      if (isDark) {
-        document.documentElement.classList.add("dark");
-        localStorage.theme = "dark";
-      } else {
-        document.documentElement.classList.remove("dark");
-        localStorage.theme = "light";
+      submitBtn.disable = "true"; // Initially disable the submit button
+      submitBtn.classList.add('cursor-not-allowed', 'opacity-50');
+
+      passwordInput.addEventListener('input', () => {
+        const value = passwordInput.value;
+
+        const hasSymbol = /[\W_]/.test(value);
+        const hasNumber = /\d/.test(value);
+        const hasLength = value.length >= 8;
+
+        // Symbol feedback
+        symbolReq.textContent = hasSymbol ? '✅ Symbol included' : '❌ Symbol is missing';
+        symbolReq.className = hasSymbol ? 'valid' : 'error';
+
+        // Number feedback
+        numberReq.textContent = hasNumber ? '✅ Number included' : '❌ Number is missing';
+        numberReq.className = hasNumber ? 'valid' : 'error';
+
+        // Length feedback
+        lengthReq.textContent = hasLength ? '✅ Password is at least 8 characters' : '❌ Password must be at least 8 characters';
+        lengthReq.className = hasLength ? 'valid' : 'error';
+
+        const allValid = hasSymbol && hasNumber && hasLength;
+
+        // Enable or disable submit button
+        submitBtn.disable = allValid ? "false" : "true";
+
+        // Cleanly toggle classes based on validation
+        if (allValid) {
+          submitBtn.classList.remove('cursor-not-allowed', 'opacity-50');
+          submitBtn.classList.add('cursor-pointer', 'opacity-100');
+        } else {
+          submitBtn.classList.remove('cursor-pointer', 'opacity-100');
+          submitBtn.classList.add('cursor-not-allowed', 'opacity-50');
+        }
+      });
+
+      // Function to set theme
+      function setTheme(isDark) {
+        if (isDark) {
+          document.documentElement.classList.add("dark");
+          localStorage.theme = "dark";
+        } else {
+          document.documentElement.classList.remove("dark");
+          localStorage.theme = "light";
+        }
       }
-    }
 
-    // Function to sync toggle states
-    function syncToggles(isDark) {
+      // Function to sync toggle states
+      function syncToggles(isDark) {
+        const desktopToggle = document.getElementById("toggle-theme");
+        const mobileToggle = document.getElementById("toggle-theme-mobile");
+
+        if (desktopToggle) desktopToggle.checked = isDark;
+        if (mobileToggle) mobileToggle.checked = isDark;
+      }
+
+      // Check for saved theme preference, otherwise use system preference
+      const prefersDark = localStorage.theme === "dark" ||
+        (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+      setTheme(prefersDark);
+      syncToggles(prefersDark);
+
+      // Theme toggle functionality for desktop
       const desktopToggle = document.getElementById("toggle-theme");
+      if (desktopToggle) {
+        desktopToggle.addEventListener("click", () => {
+          const isDark = desktopToggle.checked;
+          setTheme(isDark);
+          syncToggles(isDark);
+        });
+      }
+
+      // Theme toggle functionality for mobile
       const mobileToggle = document.getElementById("toggle-theme-mobile");
+      if (mobileToggle) {
+        mobileToggle.addEventListener("click", () => {
+          const isDark = mobileToggle.checked;
+          setTheme(isDark);
+          syncToggles(isDark);
+        });
+      }
 
-      if (desktopToggle) desktopToggle.checked = isDark;
-      if (mobileToggle) mobileToggle.checked = isDark;
-    }
-
-    // Check for saved theme preference, otherwise use system preference
-    const prefersDark = localStorage.theme === "dark" ||
-      (!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches);
-
-    setTheme(prefersDark);
-    syncToggles(prefersDark);
-
-    // Theme toggle functionality for desktop
-    const desktopToggle = document.getElementById("toggle-theme");
-    if (desktopToggle) {
-      desktopToggle.addEventListener("click", () => {
-        const isDark = desktopToggle.checked;
-        setTheme(isDark);
-        syncToggles(isDark);
+      togglePassword.addEventListener('click', () => {
+        const isPassword = passwordInput.type === 'password';
+        passwordInput.type = isPassword ? 'text' : 'password';
+        eyeOff.classList.toggle('hidden', !isPassword);
+        eye.classList.toggle('hidden', isPassword);
       });
-    }
-
-    // Theme toggle functionality for mobile
-    const mobileToggle = document.getElementById("toggle-theme-mobile");
-    if (mobileToggle) {
-      mobileToggle.addEventListener("click", () => {
-        const isDark = mobileToggle.checked;
-        setTheme(isDark);
-        syncToggles(isDark);
-      });
-    }
-
-    togglePassword.addEventListener('click', () => {
-      const isPassword = passwordInput.type === 'password';
-      passwordInput.type = isPassword ? 'text' : 'password';
-      eye.classList.toggle('hidden', !isPassword);
-      eyeOff.classList.toggle('hidden', isPassword);
     });
   </script>
 </body>
