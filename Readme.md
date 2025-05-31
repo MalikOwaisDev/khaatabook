@@ -2,7 +2,7 @@
 
 [![KhaataBook Live Demo](https://img.shields.io/badge/Live_Demo-Open_App-brightgreen?style=for-the-badge&logo=render)](https://khaatabook-uqvq.onrender.com/)
 
-**KhaataBook** is a modern, intuitive, and secure digital ledger application designed to help you effortlessly manage your financial records, personal notes, or any "hisaab-kitaab." Say goodbye to traditional paper ledgers and embrace the convenience of digital record-keeping with features like encryption, shareability, and a delightful user experience.
+**KhaataBook** is a modern, intuitive, and secure digital ledger application designed to help you effortlessly manage your financial records, personal notes, or any "hisaab-kitaab." Say goodbye to traditional paper ledgers and embrace the convenience of digital record-keeping with features like encryption passwords and a delightful user experience.
 
 ![KhaataBook Screenshot Placeholder](./public/khaatabook-dashboard.png)
 
@@ -14,7 +14,6 @@
 * 🔑 **Password Reset:** Functionality to reset forgotten passwords using email and username verification.
 * ✍️ **CRUD Operations:** Easily **C**reate, **R**ead (View), **U**pdate (Edit), and **D**elete your hisaabs (records).
 * 🛡️ **Data Encryption:** Option to encrypt sensitive hisaabs with a password for enhanced privacy.
-* 👁️ **Shareability Control:** Mark hisaabs as shareable or private, giving you control over data visibility.
 * 🔍 **Filtering & Sorting:**
     * Filter records by specific dates.
     * Sort records (e.g., All, Newest First, Oldest First) for better organization.
@@ -44,11 +43,9 @@ This project is built with a robust and modern technology stack:
 * **Backend:**
     * Node.js (JavaScript runtime environment).
     * Express.js (Fast, unopinionated, minimalist web framework for Node.js).
-    * MongoDB (NoSQL database for storing application data - *please confirm if this is accurate*).
-    * Mongoose (ODM - Object Data Modeling library for MongoDB and Node.js - *please confirm*).
-    * `bcrypt.js` (For secure password hashing).
+    * MongoDB (NoSQL database for storing application data).
+    * Mongoose (ODM - Object Data Modeling library for MongoDB and Node.js).
     * `express-session` & `connect-mongo` (For managing user sessions - *please confirm*).
-    * Node.js `crypto` module (For encrypting and decrypting hisaab content).
 * **Deployment:**
     * Render (Cloud application hosting platform).
 
