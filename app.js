@@ -50,7 +50,13 @@ app.post("/register", async (req, res) => {
       return res.render("register", { error: message });
     }
 
-    const newUser = await userModel.create({ name, email, password });
+    const passwordRegex = btoa(password);
+
+    const newUser = await userModel.create({
+      name,
+      email: email.toLowerCase(),
+      password: passwordRegex,
+    });
 
     req.session.userId = newUser._id;
     res.redirect("/");
@@ -68,9 +74,15 @@ app.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = await userModel.findOne({ email, password });
+    const user = await userModel.findOne({ email: email.toLowerCase() });
     if (!user) {
-      return res.render("login", { error: "Invalid email or password" });
+      return res.render("login", { error: "Invalid email" });
+    }
+
+    const originalPass = atob(user.password);
+
+    if (originalPass !== password) {
+      return res.render("login", { error: "Invalid password" });
     }
 
     req.session.userId = user._id;
@@ -163,6 +175,8 @@ app.post("/create", isAuthenticated, async (req, res) => {
       });
     }
 
+    const encryptedPassword = btoa(req.body.ePassword);
+
     const newFile = await fileModel.create({
       owner: user._id,
       filename: req.body.filename,
@@ -171,7 +185,7 @@ app.post("/create", isAuthenticated, async (req, res) => {
       isShareable: req.body.isShareable === "on" ? true : false,
       isEncrypted: req.body.isEncrypted === "on" ? true : false,
       createdAt: new Date().toISOString().slice(0, 10),
-      ePassword: req.body.ePassword || "",
+      ePassword: encryptedPassword || "",
     });
 
     console.log("New file created:", newFile);
@@ -246,6 +260,9 @@ app.get("/delete/:filename", isAuthenticated, async (req, res) => {
 });
 
 app.post("/update/:filename", isAuthenticated, async (req, res) => {
+  const { filedata, isShareable, isEncrypted, title, ePassword } = req.body; // Destructure to avoid unused variable warning
+  const updatedPass = btoa(ePassword); // Encrypt the password if provided
+
   try {
     const updated = await fileModel.findOneAndUpdate(
       {
@@ -253,11 +270,11 @@ app.post("/update/:filename", isAuthenticated, async (req, res) => {
         filename: req.params.filename,
       },
       {
-        content: req.body.filedata,
-        isShareable: req.body.isShareable === "on" ? true : false,
-        isEncrypted: req.body.isEncrypted === "on" ? true : false,
-        title: req.body.title,
-        ePassword: req.body.ePassword || "",
+        content: filedata,
+        isShareable: isShareable === "on" ? true : false,
+        isEncrypted: isEncrypted === "on" ? true : false,
+        title: title,
+        ePassword: updatedPass || "",
       }
     );
 
@@ -280,16 +297,23 @@ app.post("/fileCheck/:filename", isAuthenticated, async (req, res) => {
       filename: filename,
     });
 
+    encryptedPassword = atob(file.ePassword); // Encrypt the password for comparison
+
     // Ensure session is properly set
     if (!userId) return res.redirect("/login");
 
+    const filteredDate = req.session.filteredDate || null;
+    const filteredSelect = req.session.filteredSelect || "all";
+
     const files = await fileModel.find({ owner: userId });
     if (!file) return res.status(404).send("File not found");
-    if (file.isEncrypted && file.ePassword !== password) {
+    if (file.isEncrypted && encryptedPassword !== password) {
       return res.render("index", {
         files,
         error: "Invalid Password",
         filename: filename,
+        filterDate: filteredDate,
+        filterSelect: filteredSelect,
       });
     }
     // If password is correct or file is not encrypted, redirect to view
