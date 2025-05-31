@@ -4,7 +4,7 @@
 
 **KhaataBook** is a modern, intuitive, and secure digital ledger application designed to help you effortlessly manage your financial records, personal notes, or any "hisaab-kitaab." Say goodbye to traditional paper ledgers and embrace the convenience of digital record-keeping with features like encryption, shareability, and a delightful user experience.
 
-![KhaataBook Screenshot Placeholder](./khaatabook-dashboard.png)
+![KhaataBook Screenshot Placeholder](./public/khaatabook-dashboard.png)
 
 ---
 
