@@ -2,8 +2,8 @@ const express = require("express");
 const session = require("express-session");
 const path = require("path");
 const connectDB = require("./config/mongoose");
-const userModel = require("./models/user");
-const fileModel = require("./models/file");
+const { userModel, validateModel } = require("./models/user");
+const { fileModel, validateFile } = require("./models/file");
 
 const app = express();
 
@@ -36,6 +36,8 @@ app.get("/register", (req, res) => {
 
 app.post("/register", async (req, res) => {
   const { name, email, password, username } = req.body;
+  let error = validateModel({ name, email, password, username });
+  if (error) return res.render("register", { error: error.message });
 
   try {
     const existingUser = await userModel.findOne({
@@ -109,6 +111,9 @@ app.get("/", isAuthenticated, async (req, res) => {
   try {
     const userId = req.session.userId;
 
+    const user = await userModel.findById(userId).populate("files");
+    console.log(user);
+
     // Ensure session is properly set
     if (!userId) return res.redirect("/login");
 
@@ -157,37 +162,65 @@ app.get("/create", isAuthenticated, (req, res) => {
 app.post("/create", isAuthenticated, async (req, res) => {
   try {
     const user = await userModel.findById(req.session.userId);
+
     if (!user) return res.status(404).send("User not found");
+
+    console.log(user);
 
     const files = await fileModel.find({ owner: user._id });
 
+    const { filename, title, text, isShareable, isEncrypted, ePassword } =
+      req.body;
+
+    let error = validateFile({
+      filename,
+      title,
+      content: text,
+      isShareable: isShareable === "on" ? true : false,
+      isEncrypted: isEncrypted === "on" ? true : false,
+    });
+
+    if (error)
+      return res.render("create", {
+        error: error.message,
+        filename,
+        title,
+        text,
+        isShareable,
+        isEncrypted,
+      });
+
     const fileExists = await Promise.all(
       files.map(async (file) => {
-        return file.filename === req.body.filename;
+        return file.filename === filename;
       })
     );
 
     if (fileExists.includes(true)) {
-      console.log("File already exists:", req.body.filename);
+      console.log("File already exists:", filename);
       return res.render("create", {
         error:
           "File with this name already exists. Please choose a different name.",
-        filename: req.body.filename,
+        filename: filename,
       });
     }
 
-    const encryptedPassword = btoa(req.body.ePassword);
+    const encryptedPassword = btoa(ePassword);
 
     const newFile = await fileModel.create({
       owner: user._id,
-      filename: req.body.filename,
-      title: req.body.title,
-      content: req.body.text,
-      isShareable: req.body.isShareable === "on" ? true : false,
-      isEncrypted: req.body.isEncrypted === "on" ? true : false,
+      filename: filename,
+      title: title,
+      content: text,
+      isShareable: isShareable === "on" ? true : false,
+      isEncrypted: isEncrypted === "on" ? true : false,
       createdAt: new Date().toISOString().slice(0, 10),
       ePassword: encryptedPassword || "",
+      users: user._id,
     });
+
+    await user.files.push(newFile._id);
+    await user.save();
 
     console.log("New file created:", newFile);
     res.redirect("/");
@@ -246,10 +279,16 @@ app.get("/view/:filename", isAuthenticated, async (req, res) => {
 
 app.get("/delete/:filename", isAuthenticated, async (req, res) => {
   try {
+    const user = await userModel.findOne({ _id: req.session.userId });
     const deleted = await fileModel.findOneAndDelete({
       owner: req.session.userId,
       filename: req.params.filename,
     });
+
+    user.files = user.files.filter(
+      (fileId) => fileId.toString() !== deleted._id.toString()
+    );
+    await user.save();
 
     if (!deleted) return res.status(404).send("File not found");
 
