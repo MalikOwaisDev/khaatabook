@@ -4,6 +4,8 @@ const path = require("path");
 const connectDB = require("./config/mongoose");
 const { userModel, validateModel } = require("./models/user");
 const { fileModel, validateFile } = require("./models/file");
+const bcrypt = require("bcrypt");
+const { sanitizeFilter } = require("mongoose");
 
 const app = express();
 
@@ -52,7 +54,8 @@ app.post("/register", async (req, res) => {
       return res.render("register", { error: message });
     }
 
-    const passwordRegex = btoa(password);
+    const salt = await bcrypt.genSalt(10);
+    const passwordRegex = await bcrypt.hash(password, salt);
 
     const newUser = await userModel.create({
       username: username.toLowerCase(),
@@ -82,9 +85,9 @@ app.post("/login", async (req, res) => {
       return res.render("login", { error: "Invalid email" });
     }
 
-    const originalPass = atob(user.password);
+    const originalPass = await bcrypt.compare(password, user.password);
 
-    if (originalPass !== password) {
+    if (originalPass === false) {
       return res.render("login", { error: "Invalid password" });
     }
 
@@ -205,7 +208,8 @@ app.post("/create", isAuthenticated, async (req, res) => {
       });
     }
 
-    const encryptedPassword = btoa(ePassword);
+    const salt = await bcrypt.genSalt(10);
+    const encryptedPassword = await bcrypt.hash(ePassword, salt);
 
     const newFile = await fileModel.create({
       owner: user._id,
@@ -301,7 +305,8 @@ app.get("/delete/:filename", isAuthenticated, async (req, res) => {
 
 app.post("/update/:filename", isAuthenticated, async (req, res) => {
   const { filedata, isShareable, isEncrypted, title, ePassword } = req.body; // Destructure to avoid unused variable warning
-  const updatedPass = btoa(ePassword); // Encrypt the password if provided
+  const salt = await bcrypt.genSalt(10);
+  const updatedPass = await bcrypt.hash(ePassword, salt); // Encrypt the password if provided
 
   try {
     const updated = await fileModel.findOneAndUpdate(
@@ -337,7 +342,7 @@ app.post("/fileCheck/:filename", isAuthenticated, async (req, res) => {
       filename: filename,
     });
 
-    encryptedPassword = atob(file.ePassword); // Encrypt the password for comparison
+    const encryptedPassword = await bcrypt.compare(password, file.ePassword); // Encrypt the password for comparison
 
     // Ensure session is properly set
     if (!userId) return res.redirect("/login");
@@ -347,7 +352,7 @@ app.post("/fileCheck/:filename", isAuthenticated, async (req, res) => {
 
     const files = await fileModel.find({ owner: userId });
     if (!file) return res.status(404).send("File not found");
-    if (file.isEncrypted && encryptedPassword !== password) {
+    if (file.isEncrypted && encryptedPassword === false) {
       return res.render("index", {
         files,
         error: "Invalid Password",
@@ -406,7 +411,9 @@ app.get("/reset", (req, res) => {
 });
 
 app.post("/reset", async (req, res) => {
-  const newPassword = btoa(req.body.newPassword);
+  const password = req.body.newPassword;
+  const salt = await bcrypt.genSalt(10);
+  const newPassword = await bcrypt.hash(password, salt);
 
   if (!req.session.userId) {
     return res.redirect("/login");
