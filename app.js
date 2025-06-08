@@ -5,7 +5,11 @@ const connectDB = require("./config/mongoose");
 const { userModel, validateModel } = require("./models/user");
 const { fileModel, validateFile } = require("./models/file");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const cookieParser = require("cookie-parser");
 const { sanitizeFilter } = require("mongoose");
+const passport = require("passport");
+require("./config/googleStrategy");
 
 const app = express();
 
@@ -13,21 +17,36 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(cookieParser());
+
 app.use(
   session({
     secret: "123456",
     resave: false,
     saveUninitialized: false,
-    cookie: { secure: false }, // true if using HTTPS
   })
 );
+app.use(passport.initialize());
+app.use(passport.session());
 
+require("dotenv").config();
 connectDB();
+
+const generateToken = (data) => {
+  return jwt.sign(data, process.env.JWT_SECRET);
+};
 
 // Middleware to check if user is authenticated
 function isAuthenticated(req, res, next) {
-  if (!req.session.userId) {
-    return res.render("login", { error: "Please log in first." });
+  if (!req.cookies.token) {
+    return res.render("login", { error: "Please login to continue" });
+  }
+  try {
+    const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+    req.session.userId = decoded.id; // Store user ID in session
+  } catch (err) {
+    console.error("Token verification error:", err);
+    return res.render("login", { error: "Invalid token. Please login again." });
   }
   next();
 }
@@ -64,6 +83,13 @@ app.post("/register", async (req, res) => {
       password: passwordRegex,
     });
 
+    let token = generateToken({ email: newUser.email, id: newUser._id });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 1 day
+    });
     req.session.userId = newUser._id;
     res.redirect("/");
   } catch (err) {
@@ -91,6 +117,14 @@ app.post("/login", async (req, res) => {
       return res.render("login", { error: "Invalid password" });
     }
 
+    let token = generateToken({ email: user.email, id: user._id });
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      maxAge: 30 * 24 * 60 * 60 * 1000, // 1 day
+    });
+
     req.session.userId = user._id;
     res.redirect("/");
   } catch (err) {
@@ -106,6 +140,7 @@ app.get("/logout", (req, res) => {
       return res.status(500).send("Logout failed");
     }
     res.clearCookie("connect.sid");
+    res.clearCookie("token");
     res.redirect("/login");
   });
 });
@@ -431,11 +466,74 @@ app.post("/reset", async (req, res) => {
       return res.status(500).send("Internal Server Error");
     }
     res.clearCookie("connect.sid");
+    res.clearCookie("token");
     res.redirect("/login");
   });
 });
 
+// Route for starting the OAuth flow
+app.get(
+  "/auth/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+// Route for handling the callback from Google
+app.get(
+  "/auth/google/callback",
+  passport.authenticate("google", {
+    failureRedirect: "/",
+    error: "Authentication failed",
+  }),
+  async (req, res) => {
+    // On successful authentication, redirect to the home page or dashboard
+    const user = req.user;
+    if (!user) {
+      return res.render("login", { error: "Authentication failed" });
+    }
+    const name =
+      user.displayName || user.name.givenName || user.name.familyName;
+    const username = user.displayName.replace(/\s+/g, "");
+    const email = user.emails[0].value;
+
+    const userFind = await userModel.findOne({
+      email: email,
+    });
+
+    if (userFind) {
+      let token = generateToken({
+        email: userFind.email.toLowerCase(),
+        id: userFind._id,
+      });
+
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 1 day
+      });
+      req.session.userId = userFind._id;
+      return res.redirect("/");
+    } else {
+      const newUser = await userModel.create({
+        username: username.toLowerCase(),
+        name,
+        email: email.toLowerCase(),
+      });
+
+      let token = generateToken({ email: newUser.email, id: newUser._id });
+
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 30 * 24 * 60 * 60 * 1000, // 1 day
+      });
+      req.session.userId = newUser._id;
+      res.redirect("/");
+    }
+  }
+);
+
 const PORT = process.env.PORT || 3000;
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
