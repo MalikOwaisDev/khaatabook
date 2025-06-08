@@ -480,54 +480,41 @@ app.get(
 // Route for handling the callback from Google
 app.get(
   "/auth/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/",
-    error: "Authentication failed",
-  }),
+  passport.authenticate("google", { failureRedirect: "/" }),
   async (req, res) => {
-    // On successful authentication, redirect to the home page or dashboard
-    const user = req.user;
-    if (!user) {
-      return res.render("login", { error: "Authentication failed" });
-    }
-    const name =
-      user.displayName || user.name.givenName || user.name.familyName;
-    const username = user.displayName.replace(/\s+/g, "");
-    const email = user.emails[0].value;
+    try {
+      const user = req.user;
+      if (!user) throw new Error("User not found after authentication");
 
-    const userFind = await userModel.findOne({
-      email: email,
-    });
+      const name = user.displayName || "GoogleUser";
+      const username = name.replace(/\s+/g, "");
+      const email = user.emails?.[0]?.value;
 
-    if (userFind) {
-      let token = generateToken({
-        email: userFind.email.toLowerCase(),
-        id: userFind._id,
-      });
+      if (!email) throw new Error("Email not received from Google");
+
+      let userFind = await userModel.findOne({ email: email.toLowerCase() });
+
+      if (!userFind) {
+        userFind = await userModel.create({
+          username: username.toLowerCase(),
+          name,
+          email: email.toLowerCase(),
+        });
+      }
+
+      const token = generateToken({ email: userFind.email, id: userFind._id });
 
       res.cookie("token", token, {
         httpOnly: true,
-        secure: true,
-        maxAge: 30 * 24 * 60 * 60 * 1000, // 1 day
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 30 * 24 * 60 * 60 * 1000,
       });
+
       req.session.userId = userFind._id;
-      return res.redirect("/");
-    } else {
-      const newUser = await userModel.create({
-        username: username.toLowerCase(),
-        name,
-        email: email.toLowerCase(),
-      });
-
-      let token = generateToken({ email: newUser.email, id: newUser._id });
-
-      res.cookie("token", token, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 30 * 24 * 60 * 60 * 1000, // 1 day
-      });
-      req.session.userId = newUser._id;
       res.redirect("/");
+    } catch (err) {
+      console.error("OAuth callback error:", err.message);
+      res.status(500).send("Internal Server Error");
     }
   }
 );
